@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Home</title>
+  <link rel="stylesheet" href="style2.css">
+</head>
+<body>
+
+  <header>
+    <nav class="navbar">
+      <div class="logo">
+        <a href="#" >
+        <img src="./logo/login_logo.png" alt="Logo" class="pic">
+      </a>
+
+      </div>
+      
+      <ul class="nav-links">
+        <li><a href="#home">Home</a></li>
+        <li><a href="#about">About Us</a></li>
+        <li><a href="#services">Services</a></li>
+        <li><a href="#contact">Contact</a></li>
+      </ul>
+      <div onclick="fetchUserInfo()" class="user-profile" style="position: relative; cursor: pointer;">
+  <img src="./icons8-profile-96.png" class="user-icon" />
+  <div id="user-info-box" style="display: none; position: absolute; background: white; padding: 10px;">
+    <p><strong>Email:</strong> <span id="display-email"></span></p>
+    <p><strong>College ID:</strong> <span id="display-college-id"></span></p>
+  </div>
+</div>
+
+    </nav>
+  </header>
+  <section class="home" id="home">
+    <div class="content">
+      <h3>Queries</h3>
+      <span>Upload all your problems</span>
+      <p>A website made for NIT Arunachal Pradesh students where they can upload all of their problems that can be seen and corrected by teachers.</p>
+      <a href="#" class="btn">Upload now</a>
+
+    </div>
+  </section>
+  <section id="about">
+    <div class="heading">
+        <h1><span>About us</span></h1>
+        <h2>Know about the developers</h2>
+    </div>
+
+    <div class="about">
+        <div class="card">
+            <img src="./profile-img.png" alt="" class="profile-img">
+            <h3>Soumajit Bhattacharjee</h3>
+            <p>Full Stack Web Developer</p>
+            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit...</p>
+        </div>
+
+        <div class="card">
+            <img src="./profile-img.png" alt="" class="profile-img">
+            <h3>Soumajit Bhattacharjee</h3>
+            <p>Full Stack Web Developer</p>
+            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit...</p>
+        </div>
+
+        <div class="card">
+            <img src="./profile-img.png" alt="" class="profile-img">
+            <h3>Soumajit Bhattacharjee</h3>
+            <p>Full Stack Web Developer</p>
+            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit...</p>
+        </div>
+    </div>
+</section>
+<section id="services">
+  <div class="heading">
+    <h1><span>Our work</span></h1>
+    <h2>What we offer</h2>
+  </div>
+
+  <div class="projects-grid">
+    <!-- Project Card Start -->
+    <a href="contact.html" class="project-card" style="background-image: url('./Screenshot 2025-07-19 184540.png');">
+      <div class="card-overlay">
+        <div class="card-text">
+          <h2 class="project-title">Estate</h2>
+          <p class="project-desc">A real estate website</p>
+        </div>
+        <div class="icon-wrapper">
+          <img src="./send-icon.png" alt="Visit" class="send-icon">
+        </div>
+      </div>
+    </a>
+    <!-- Repeat this block for more cards -->
+    <a href="contact.html" class="project-card" style="background-image: url('./Screenshot 2025-07-19 184540.png');">
+      <div class="card-overlay">
+        <div class="card-text">
+          <h2 class="project-title">Estate</h2>
+          <p class="project-desc">A real estate website</p>
+        </div>
+        <div class="icon-wrapper">
+          <img src="./send-icon.png" alt="Visit" class="send-icon">
+        </div>
+      </div>
+    </a>
+
+    <a href="contact.html" class="project-card" style="background-image: url('./Screenshot 2025-07-19 184540.png');">
+      <div class="card-overlay">
+        <div class="card-text">
+          <h2 class="project-title">Estate</h2>
+          <p class="project-desc">A real estate website</p>
+        </div>
+        <div class="icon-wrapper">
+          <img src="./send-icon.png" alt="Visit" class="send-icon">
+        </div>
+      </div>
+    </a>
+    <!-- Project Card End -->
+  </div>
+</section>
+
+    
+    
+<section class="contact" id="contact">
+  <div class="contact-container">
+    <form action="" class="contact-left">
+      <div class="contact-left-title">
+        <h2>Contact Us</h2>
+        <h1>Want to give feedback about the website? Try this!</h1>
+      </div>
+
+      <input type="text" placeholder="Your Name" class="contact-inputs" required>
+      <input type="email" name="email" placeholder="Your Email" class="contact-inputs" required>
+      <textarea name="message" placeholder="Your message" class="contact-inputs" required></textarea>
+
+      <button type="submit">Submit <img src="right-arrow.png" alt=""></button>
+    </form>
+  </div>
+</section>
+
+
+</body>
+</html>
