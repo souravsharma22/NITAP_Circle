@@ -1,142 +1,223 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Home</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-LN+7fdVzj6u52u30Kp6M/trliBMCMKTyK833zpbD+pXdCLuTusPj697FH4R/5mcr" crossorigin="anonymous">
   <link rel="stylesheet" href="home2.css">
 </head>
+
 <body>
 
   <header>
     <nav class="navbar">
       <div class="logo">
-        <a href="#" >
-        <img src="./logo/login_logo.png" alt="Logo" class="pic">
-      </a>
+        <a href="#">
+          <img src="./logo/login_logo.png" alt="Logo" class="pic">
+        </a>
 
       </div>
-      
+
       <ul class="nav-links">
         <li><a href="#home">Home</a></li>
         <li><a href="#about">About Us</a></li>
-        <li><a href="#services">Services</a></li>
+        <li><a href="#services">Events</a></li>
         <li><a href="#contact">Contact</a></li>
       </ul>
       <div onclick="fetchUserInfo()" class="user-profile" style="position: relative; cursor: pointer;">
-  <img src="./homeImages/icons8-profile-96.png" class="user-icon" />
-  <div id="user-info-box" style="display: none; position: absolute; background: white; padding: 10px;">
-    <p><strong>Email:</strong> <span id="display-email"></span></p>
-    <p><strong>College ID:</strong> <span id="display-college-id"></span></p>
-  </div>
-</div>
+        <img src="./homeImages/icons8-profile-96.png" class="user-icon" />
+        <div id="user-info-box" style="display: none; position: absolute; background: white; padding: 10px;">
+          <p><strong>Email:</strong> <span id="display-email"></span></p>
+          <p><strong>College ID:</strong> <span id="display-college-id"></span></p>
+        </div>
+      </div>
 
     </nav>
   </header>
   <section class="home" id="home">
     <div class="content">
-      <h3>Queries</h3>
-      <span>Upload all your problems</span>
-      <p>A website made for NIT Arunachal Pradesh students where they can upload all of their problems that can be seen and corrected by teachers.</p>
-      <a href="#" class="btn">Upload now</a>
+      <h3>complaints</h3>
+      <p>A website made for NIT Arunachal Pradesh students where they can upload all of their problems that can be seen
+        and corrected by teachers.</p>
+      <button class="btn" onclick="window.location.href='complaints.html'">Upload</button>
 
     </div>
+    <div class="content" id="buysell-1">
+      <h3>Buy & Sell</h3>
+      <p>Find the items that you need, list items for sell which others can leverage</p>
+      <button class="btn">Explore</button>
+    </div>
+
+    <div class="content" id="lostfound-1">
+      <h3>Lost & Found</h3>
+      <p>Found somthing which doen't belong to you? Help the owner find it. Or find the items that you lost</p>
+      <button class="btn">Find/list items</button>
+    </div>
+
   </section>
+
+  <section id="Notices">
+    <div id="head-1">
+      <h1>NOTICES & CALANDER</h1>
+    </div>
+    <div class="notice">
+      <div class="alert alert-success" role="alert">
+        <h4 class="alert-heading">Well done!</h4>
+        <p>This website is developed by Sourav Sharma , Soumajit Bhattacharjee and Md Aftab,
+          Student from NIT Arunachal Pradesh
+        </p>
+        <hr>
+        <p class="mb-0">This is to notify you all this will be fully functional very soon</p>
+      </div>
+    </div>
+    <div class="notice">
+      <h3 style="text-align: center;">Public Holidays in College</h3>
+      <table class="table">
+        <thead>
+          <tr>
+            <th scope="col">#</th>
+            <th scope="col">date</th>
+            <th scope="col">Ocassion</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <th scope="row">1</th>
+            <td>15 aug 2025</td>
+            <td>Indipendence day</td>
+          </tr>
+          <tr>
+            <th scope="row">2</th>
+            <td>27 Aug 2025</td>
+            <td>Ganesh Chaturthi</td>
+          </tr>
+          <tr>
+            <th scope="row">3</th>
+            <td>5 Sep 2025</td>
+            <td>Ed-el-Milad</td>
+          </tr>
+          <tr>
+            <th scope="row">4</th>
+            <td>2 Oct 2025</td>
+            <td>Gandhi Jayanti/dusserah</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="notice">
+      <div class="card">
+        <div class="card-body">
+          This is our academic calander for july-dec 2025, download here
+        </div>
+        <a href="/public/NITAP_Academic_Calandar_2025.pdf" class="btn" download> <i class="fa-solid fa-download"></i>
+          Download</a>
+      </div>
+    </div>
+
+  </section>
+  </section>
+  <section id="services">
+    <div class="heading">
+      <h1><span>College Events</span></h1>
+      <h2>What's live in campus</h2>
+    </div>
+
+    <div class="projects-grid">
+      <!-- Project Card Start -->
+      <a href="contact.html" class="project-card"
+        style="background-image: url('./homeImages/Screenshot\ 2025-07-19\ 184540.png');">
+        <div class="card-overlay">
+          <div class="card-text">
+            <h2 class="project-title">Estate</h2>
+            <p class="project-desc">A real estate website</p>
+          </div>
+          <div class="icon-wrapper">
+            <img src="./send-icon.png" alt="Visit" class="send-icon">
+          </div>
+        </div>
+      </a>
+      <!-- Repeat this block for more cards -->
+      <a href="contact.html" class="project-card"
+        style="background-image: url('./homeImages/Screenshot\ 2025-07-19\ 184540.png');">
+        <div class="card-overlay">
+          <div class="card-text">
+            <h2 class="project-title">Estate</h2>
+            <p class="project-desc">A real estate website</p>
+          </div>
+          <div class="icon-wrapper">
+            <img src="./send-icon.png" alt="Visit" class="send-icon">
+          </div>
+        </div>
+      </a>
+
+      <a href="contact.html" class="project-card"
+        style="background-image: url('./homeImages/Screenshot\ 2025-07-19\ 184540.png');">
+        <div class="card-overlay">
+          <div class="card-text">
+            <h2 class="project-title">Estate</h2>
+            <p class="project-desc">A real estate website</p>
+          </div>
+          <div class="icon-wrapper">
+            <img src="./homeImages/send-icon.png" alt="Visit" class="send-icon">
+          </div>
+        </div>
+      </a>
+      <!-- Project Card End -->
+    </div>
+  </section>
+
   <section id="about">
     <div class="heading">
-        <h1><span>About us</span></h1>
-        <h2>Know about the developers</h2>
+      <h1><span>About us</span></h1>
+      <h2>Know about the developers</h2>
     </div>
 
     <div class="about">
-        <div class="card">
-            <img src="./homeImages/profile-img.png" alt="" class="profile-img">
-            <h3>Soumajit Bhattacharjee</h3>
-            <p>Full Stack Web Developer</p>
-            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit...</p>
-        </div>
+      <div class="card">
+        <img src="./homeImages/profile-img.png" alt="" class="profile-img">
+        <h3>Soumajit Bhattacharjee</h3>
+        <p>Full Stack Web Developer</p>
+        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit...</p>
+      </div>
 
-        <div class="card">
-            <img src="./homeImages/profile-img.png" alt="" class="profile-img">
-            <h3>Soumajit Bhattacharjee</h3>
-            <p>Full Stack Web Developer</p>
-            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit...</p>
-        </div>
+      <div class="card">
+        <img src="./homeImages/sourav_image.jpeg" alt="" class="profile-img">
+        <h3>Sourav Sharma</h3>
+        <p>Full Stack Web Developer</p>
+        <p>A full stack web developer with deep knowledge of backend. An AIML enthusiast incopratinf ML to solve real-life problems</p>
+      </div>
 
-        <div class="card">
-            <img src="./homeImages/profile-img.png" alt="" class="profile-img">
-            <h3>Soumajit Bhattacharjee</h3>
-            <p>Full Stack Web Developer</p>
-            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit...</p>
-        </div>
+      <div class="card">
+        <img src="./homeImages/profile-img.png" alt="" class="profile-img">
+        <h3>Md Aftab</h3>
+        <p>Full Stack Web Developer</p>
+        <p>Student of NITAP, 2026 batch a developer and cp expert</p>
+      </div>
     </div>
-</section>
-<section id="services">
-  <div class="heading">
-    <h1><span>Our work</span></h1>
-    <h2>What we offer</h2>
-  </div>
 
-  <div class="projects-grid">
-    <!-- Project Card Start -->
-    <a href="contact.html" class="project-card" style="background-image: url('./homeImages/Screenshot\ 2025-07-19\ 184540.png');">
-      <div class="card-overlay">
-        <div class="card-text">
-          <h2 class="project-title">Estate</h2>
-          <p class="project-desc">A real estate website</p>
-        </div>
-        <div class="icon-wrapper">
-          <img src="./send-icon.png" alt="Visit" class="send-icon">
-        </div>
-      </div>
-    </a>
-    <!-- Repeat this block for more cards -->
-    <a href="contact.html" class="project-card" style="background-image: url('./homeImages/Screenshot\ 2025-07-19\ 184540.png');">
-      <div class="card-overlay">
-        <div class="card-text">
-          <h2 class="project-title">Estate</h2>
-          <p class="project-desc">A real estate website</p>
-        </div>
-        <div class="icon-wrapper">
-          <img src="./send-icon.png" alt="Visit" class="send-icon">
-        </div>
-      </div>
-    </a>
 
-    <a href="contact.html" class="project-card" style="background-image: url('./homeImages/Screenshot\ 2025-07-19\ 184540.png');">
-      <div class="card-overlay">
-        <div class="card-text">
-          <h2 class="project-title">Estate</h2>
-          <p class="project-desc">A real estate website</p>
+
+  <section class="contact" id="contact">
+    <div class="contact-container">
+      <form action="" class="contact-left">
+        <div class="contact-left-title">
+          <h2>Contact Us</h2>
+          <h1>Want to give feedback about the website? Try this!</h1>
         </div>
-        <div class="icon-wrapper">
-          <img src="./homeImages/send-icon.png" alt="Visit" class="send-icon">
-        </div>
-      </div>
-    </a>
-    <!-- Project Card End -->
-  </div>
-</section>
 
-    
-    
-<section class="contact" id="contact">
-  <div class="contact-container">
-    <form action="" class="contact-left">
-      <div class="contact-left-title">
-        <h2>Contact Us</h2>
-        <h1>Want to give feedback about the website? Try this!</h1>
-      </div>
+        <input type="text" placeholder="Your Name" class="contact-inputs" required>
+        <input type="email" name="email" placeholder="Your Email" class="contact-inputs" required>
+        <textarea name="message" placeholder="Your message" class="contact-inputs" required></textarea>
 
-      <input type="text" placeholder="Your Name" class="contact-inputs" required>
-      <input type="email" name="email" placeholder="Your Email" class="contact-inputs" required>
-      <textarea name="message" placeholder="Your message" class="contact-inputs" required></textarea>
-
-      <button type="submit">Submit <img src="./homeImages/right-arrow.png" alt=""></button>
-    </form>
-  </div>
-</section>
+        <button type="submit">Submit <img src="./homeImages/right-arrow.png" alt=""></button>
+      </form>
+    </div>
+  </section>
 
 
 </body>
+
 </html>
