@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login Page</title>
+    <link rel="stylesheet" href="/style.css">
+</head>
+
+<body>
+    <div class="container">
+        <div class="name">
+            <span><b>National Institute Of Technology</b></span> <br>
+            <span>Arunachal Pradesh</span>
+        </div>
+        <div class="image-logo">
+            <img src="/logo/login_logo.png" alt="" style="height:150px; width:150px">
+        </div>
+        <div class="form-box active" id="login-form">
+            <form action="/login" method="post">
+                <h2>Login</h2>
+                <input type="email" name="Email" id="email" placeholder="Email" required>
+                <input type="password" name="userPassword" id="password" placeholder="Password" required>
+                <button type="submit" name="login"> Login
+                </button>
+                <p>Do not have an account? <a href="#" onclick="showForm('register-form')">Register</a></p>
+            </form>
+        </div>
+         <div class="form-box" id="register-form">
+            <form action="/register" method="post">
+                <h2>Register</h2>
+                <input type="email" name="Email" placeholder="Email" 
+       pattern="[a-zA-Z0-9._%+-]+@nitap\.ac\.in" 
+       title="Please enter a valid NITAP email (e.g., user@nitap.ac.in)" 
+       required>
+                <input type="text" name="college_id" placeholder="College-ID" required>
+
+               <input type="password" name="password" placeholder="Password"
+       
+       required>
+                <select name="role" id="" required>
+                    <option value="">Select Designation</option>
+                    <option value="user">Student</option>
+                    <option value="admin">Teacher</option>
+                </select>
+                <button type="submit" name="register"> Register
+                </button>
+                <p>Already have an account? <a href="#" onclick="showForm('login-form')">Login</a></p>
+            </form>
+        </div>
+    </div>
+    <script src="script.js"></script>
+</body>
+
+</html>

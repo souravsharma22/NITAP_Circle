@@ -1,0 +1,30 @@
+{
+  "name": "nitap_circle",
+  "version": "1.0.0",
+  "description": "This project is for the people living in nitap campus and have a email account of nitap domain",
+  "main": "sever.js",
+  "type": "module",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/souravsharma22/NITAP_Circle.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/souravsharma22/NITAP_Circle/issues"
+  },
+  "homepage": "https://github.com/souravsharma22/NITAP_Circle#readme",
+  "dependencies": {
+    "bcrypt": "^6.0.0",
+    "express": "^5.1.0",
+    "fs": "^0.0.1-security",
+    "multer": "^2.0.2",
+    "path": "^0.12.7",
+    "pg": "^8.16.3",
+    "url": "^0.11.4"
+  }
+}

@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-LN+7fdVzj6u52u30Kp6M/trliBMCMKTyK833zpbD+pXdCLuTusPj697FH4R/5mcr" crossorigin="anonymous">
+    <link rel="stylesheet" href="style.css">
+    <title>Complaints</title>
+</head>
+
+<body>
+    <nav class="navbar">
+        <div class="container-fluid">
+            <div>
+                <a class="navbar-brand">Home</a>
+                <a href="#raisecomplaint" class="btn btn-primary" id="comp-btn">Raise Complaint</a>
+            </div>
+            <form class="d-flex" role="search">
+                <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search" />
+                <button class="btn btn-outline-success" type="submit">Search</button>
+            </form>
+        </div>
+    </nav>
+    <div class="ht1">
+        <h1>Complaints</h1>
+    </div>
+    <div id="raisecomplaint">
+        <h2 class="mb-4">Raise a Complaint</h2>
+                <form action="/raise" method="post" enctype="multipart/form-data" id="complaintForm">
+                    <input type="text" name="title" placeholder="Title: problem" class="form-control my-2" required>
+                    <input type="text" name="desc" placeholder="Description" class="form-control my-2" required>
+                    <input type="text" name="name" placeholder="Name" class="form-control my-2" required>
+                    <input type="text" name="roll" placeholder="Roll No" class="form-control my-2" required>
+                    <input type="text" name="email" placeholder="College Mail" class="form-control my-2" required>
+                    <input type="text" name="hostel" placeholder="Hostel" class="form-control my-2" required>
+                    <input type="text" name="type" placeholder="Complaint type(like: cleaning, internet, electrician)"
+                        class="form-control my-2" required>
+                    <input type="file" name="image" accept="image/*" class="form-control my-2">
+                    <button type="submit" class="btn btn-success">Submit Complaint</button>
+                    <button type="submit" id="closeButton" class="btn close">Close Complaint</button>
+                </form>
+    </div>
+
+    <div class="alert alert-success" role="alert">
+        <h4 class="alert-heading">NOTICE!</h4>
+        <p>This web site is on work right now and not fully functional. Stay with us we are trying hard to make it work
+            as soon as possible co-opration of you all will be needed.</p>
+        <hr>
+        <p class="mb-0">Sourav Sharma , Md Aftab , Soumajit bhattacharjee</p>
+        <p>developers.</p>
+    </div>
+
+    <div class="complaints gap-3 d-flex flex-wrap" id="complaintsContainer">
+
+    </div>
+
+    <script src="script.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-ndDqU0Gzau9qJ1lfW4pNLlhNTkCfHzAVBReH9diLvGRem5+R9g2FzA8ZGN954O5Q"
+        crossorigin="anonymous"></script>
+</body>
+
+</html>

@@ -63,7 +63,7 @@ section{
   display: flex;
   align-items: center;
   min-height: 100vh;
-  background: url(./college.webp);
+  background: url(./homeImages/college.webp);
   background-size:cover ;
   background-position: center;
 
