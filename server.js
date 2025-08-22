@@ -21,6 +21,8 @@ app.use(bodyParser.urlencoded({extended:true}));
 app.use(express.json());
 app.use(express.static(path.join(__dirname, "complaints")));
 app.use(express.static(path.join(__dirname, "public")));
+app.use(express.static(path.join(__dirname, "buy_sell")));
+app.use(express.static(path.join(__dirname, "LossFound")));
 
 const db = new pg.Client({
     user: 'postgres',

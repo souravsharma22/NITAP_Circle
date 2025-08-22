@@ -48,13 +48,13 @@
     <div class="content" id="buysell-1">
       <h3>Buy & Sell</h3>
       <p>Find the items that you need, list items for sell which others can leverage</p>
-      <button class="btn">Explore</button>
+      <button class="btn" onclick="window.location.href='buysell.html'">Explore</button>
     </div>
 
     <div class="content" id="lostfound-1">
       <h3>Lost & Found</h3>
       <p>Found somthing which doen't belong to you? Help the owner find it. Or find the items that you lost</p>
-      <button class="btn">Find/list items</button>
+      <button class="btn" onclick="window.location.href='loss.html'">Find/list items</button>
     </div>
 
   </section>
@@ -62,6 +62,49 @@
   <section id="Notices">
     <div id="head-1">
       <h1>NOTICES & CALANDER</h1>
+    </div>
+    <div class="notice" style="text-align: center;">
+      <h3 style="text-align: center;">Bus Timings</h3>
+      <table class="table" border="1" cellpadding="8" cellspacing="0">
+        <thead>
+          <tr>
+            <th>Time</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>8:50 AM</td>
+          </tr>
+          <tr>
+            <td>9:00 AM</td>
+          </tr>
+          <tr>
+            <td>9:50 AM</td>
+          </tr>
+          <tr>
+            <td>10:00 AM</td>
+          </tr>
+          <tr>
+            <td>12:50 AM</td>
+          </tr>
+          <tr>
+            <td>1:00 PM</td>
+          </tr>
+          <tr>
+            <td>1:50 PM</td>
+          </tr>
+          <tr>
+            <td>2:00 PM</td>
+          </tr>
+          <tr>
+            <td>5:00 PM</td>
+          </tr>
+          <tr>
+            <td>6:00 PM</td>
+          </tr>
+        </tbody>
+      </table>
+
     </div>
     <div class="notice">
       <div class="alert alert-success" role="alert">
@@ -117,7 +160,6 @@
       </div>
     </div>
 
-  </section>
   </section>
   <section id="services">
     <div class="heading">
@@ -187,7 +229,8 @@
         <img src="./homeImages/sourav_image.jpeg" alt="" class="profile-img">
         <h3>Sourav Sharma</h3>
         <p>Full Stack Web Developer</p>
-        <p>A full stack web developer with deep knowledge of backend. An AIML enthusiast incopratinf ML to solve real-life problems</p>
+        <p>A full stack web developer with deep knowledge of backend. An AIML enthusiast incopratinf ML to solve
+          real-life problems</p>
       </div>
 
       <div class="card">
@@ -200,22 +243,22 @@
 
 
 
-  <section class="contact" id="contact">
-    <div class="contact-container">
-      <form action="" class="contact-left">
-        <div class="contact-left-title">
-          <h2>Contact Us</h2>
-          <h1>Want to give feedback about the website? Try this!</h1>
-        </div>
+    <section class="contact" id="contact">
+      <div class="contact-container">
+        <form action="" class="contact-left">
+          <div class="contact-left-title">
+            <h2>Contact Us</h2>
+            <h1>Want to give feedback about the website? Try this!</h1>
+          </div>
 
-        <input type="text" placeholder="Your Name" class="contact-inputs" required>
-        <input type="email" name="email" placeholder="Your Email" class="contact-inputs" required>
-        <textarea name="message" placeholder="Your message" class="contact-inputs" required></textarea>
+          <input type="text" placeholder="Your Name" class="contact-inputs" required>
+          <input type="email" name="email" placeholder="Your Email" class="contact-inputs" required>
+          <textarea name="message" placeholder="Your message" class="contact-inputs" required></textarea>
 
-        <button type="submit">Submit <img src="./homeImages/right-arrow.png" alt=""></button>
-      </form>
-    </div>
-  </section>
+          <button type="submit">Submit <img src="./homeImages/right-arrow.png" alt=""></button>
+        </form>
+      </div>
+    </section>
 
 
 </body>
