@@ -3,10 +3,13 @@ import { dirname } from 'path'
 import { fileURLToPath } from 'url';
 import path from 'path';
 import bodyParser from 'body-parser';
-import pg from 'pg'
+import { Pool } from 'pg';
+// import pg from 'pg' //using pool instead of client for multi-access at a time
 import multer from 'multer';
 import fs from 'fs'
 import bcrypt from "bcrypt";
+import dotenv from 'dotenv'
+dotenv.config();
 
 
 const app = express()
@@ -24,12 +27,11 @@ app.use(express.static(path.join(__dirname, "public")));
 app.use(express.static(path.join(__dirname, "buy_sell")));
 app.use(express.static(path.join(__dirname, "LossFound")));
 
-const db = new pg.Client({
-    user: 'postgres',
-    host: 'localhost',
-    database: 'College_Site',
-    password: 'ss22',
-    port: 5432,
+const db = new Pool({
+    connectionString: process.env.DATABASE_URL,
+  ssl: process.env.NODE_ENV === "production" 
+       ? { rejectUnauthorized: false } 
+       : false,
 });
 
 db.connect();
