@@ -12,33 +12,27 @@
 
 <body>
 
-  <header>
+  <header class="header">
+
+    <a href="#" class="logo">Circle</a>
+    <input type="checkbox" name="" id="check">
+    <label for="check" class="icons">
+      <img src="/public/homeImages/menu.png" id="menu-icon" alt="">
+      <img src="/public/homeImages/cross.png" id="close-icon" alt="">
+    </label>
     <nav class="navbar">
-      <div class="logo">
-        <a href="#">
-          <img src="./logo/login_logo.png" alt="Logo" class="pic">
-        </a>
 
-      </div>
 
-      <ul class="nav-links">
-        <li><a href="#home">Home</a></li>
-        <li><a href="#about">About Us</a></li>
-        <li><a href="#services">Events</a></li>
-        <li><a href="#contact">Contact</a></li>
-      </ul>
-      <div onclick="fetchUserInfo()" class="user-profile" style="position: relative; cursor: pointer;">
-        <img src="./homeImages/icons8-profile-96.png" class="user-icon" />
-        <div id="user-info-box" style="display: none; position: absolute; background: white; padding: 10px;">
-          <p><strong>Email:</strong> <span id="display-email"></span></p>
-          <p><strong>College ID:</strong> <span id="display-college-id"></span></p>
-        </div>
-      </div>
+      <a href="#home" style="--i:0">Home</a>
+      <a href="#about" style="--i:1">About Us</a>
+      <a href="#services" style="--i:2">Events</a>
+      <a href="#contact" style="--i:3">Contact</a>
+
 
     </nav>
   </header>
   <section class="home" id="home">
-    <div class="content">
+    <!-- <div class="content">
       <h3>complaints</h3>
       <p>A website made for NIT Arunachal Pradesh students where they can upload all of their problems that can be seen
         and corrected by teachers.</p>
@@ -55,7 +49,7 @@
       <h3>Lost & Found</h3>
       <p>Found somthing which doen't belong to you? Help the owner find it. Or find the items that you lost</p>
       <button class="btn" onclick="window.location.href='loss.html'">Find/list items</button>
-    </div>
+    </div> -->
 
   </section>
 
