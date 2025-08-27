@@ -173,16 +173,18 @@
 
 }
 .features{
-  padding-top: 50px;
+  padding-top: 30px;
 }
 
 #f-h2{
   font-size: 3.5rem;
   padding-left: 2rem;
+  text-align: center;
 } 
 .features #fp{
   padding-left: 2rem;
-  font-size: 1.5rem;
+  font-size: 1.0rem;
+  text-align: center;
 }
 
 .contents {
