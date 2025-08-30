@@ -17,7 +17,11 @@ function showForm(formId){
     });
 
     const data = await res.json();
-    if (data.email) {
+    if(data.error){
+      alert('invalid credential');
+      return;
+    }
+    else if (data.email) {
       localStorage.setItem("userEmail", data.email);
       window.location.href = "/home.html";
     } else {

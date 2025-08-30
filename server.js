@@ -25,7 +25,6 @@ const __dirname = dirname(fileURLToPath(import.meta.url));
 
 app.use(bodyParser.urlencoded({extended:true}));
 app.use(express.json());
-app.use(express.static(path.join(__dirname, "complaints")));
 app.use(express.static(path.join(__dirname, "public")));
 app.use(express.static(path.join(__dirname, "buy_sell")));
 app.use(express.static(path.join(__dirname, "LossFound")));
@@ -93,14 +92,14 @@ app.post("/login", async (req, res) => {
     const result = await db.query("SELECT password FROM users WHERE email = $1", [Email]);
 
     if (result.rows.length === 0) {
-      return res.status(400).send("User not found");
+      return res.status(400).json({error:"User not found"});
     }
 
     const hashedPassword = result.rows[0].password;
     const isMatch = await bcrypt.compare(userPassword, hashedPassword);
 
     if (!isMatch) {
-      return res.status(401).send("Invalid credentials");
+      return res.status(401).json({error2:"Invalid credentials"});
     }
     
     res.json({ email: Email });
