@@ -344,3 +344,11 @@
         padding: auto;
     }
 }
+
+/* //My products container */
+#myProduct{
+    display: flex;
+    margin: 0;
+    padding: 32px;
+    background-color: #0f172a;
+}

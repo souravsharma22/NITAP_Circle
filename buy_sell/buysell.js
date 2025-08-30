@@ -76,7 +76,9 @@ async function loadMyProducts() {
   const products = await res.json();
   // console.log(complaints);
   const container = document.getElementById('myProduct');
+  container.innerHTML = "";
   if (products.length == 0) container.innerHTML = '<h1 style="text-align:center"> You have not listed anything for sale Or login Again</h1>';
+  
 
   products.forEach(c => {
     const image = c.image ? `data:image/png;base64,${arrayBufferToBase64(c.image.data)}` : null;

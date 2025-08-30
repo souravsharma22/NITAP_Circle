@@ -12,12 +12,23 @@ import dotenv from 'dotenv'
 dotenv.config();
 
 
+import  session  from 'express-session';
+
+
+
+
 //Variables for use
-let user_id;
+// let user_id;
 
 const app = express()
 const port = 3000;
 
+app.use(session({
+  secret: "mynameisBATMAN",  
+  resave: false,
+  saveUninitialized: false,
+  cookie: { secure: false }  // set to true if using HTTPS
+}));
 
 const upload = multer({ dest: 'uploads/' })
 const __dirname = dirname(fileURLToPath(import.meta.url));
@@ -26,6 +37,7 @@ const __dirname = dirname(fileURLToPath(import.meta.url));
 app.use(bodyParser.urlencoded({extended:true}));
 app.use(express.json());
 app.use(express.static(path.join(__dirname, "public")));
+app.use(express.static(path.join(__dirname, "admin")));
 app.use(express.static(path.join(__dirname, "buy_sell")));
 app.use(express.static(path.join(__dirname, "LossFound")));
 
@@ -45,13 +57,6 @@ db.connect();
 app.get("/", (req, res)=>{
     res.sendFile(__dirname +'/index.html')
 })
-
-// app.get("/", (req, res) => {
-//     res.sendFile(__dirname + "/complaints/index.html");
-// });
-
-//Login and resister logic
-
 
 
 app.post("/register", async (req, res) => {
@@ -85,8 +90,6 @@ app.post("/register", async (req, res) => {
 
 app.post("/login", async (req, res) => {
   const { Email, userPassword } = req.body;
-  user_id = Email;
-  console.log(user_id);
 
   try {
     const result = await db.query("SELECT password FROM users WHERE email = $1", [Email]);
@@ -101,9 +104,40 @@ app.post("/login", async (req, res) => {
     if (!isMatch) {
       return res.status(401).json({error2:"Invalid credentials"});
     }
-    
+    //storing useremail for the use
+    req.session.userEmail = Email;
+      // const email = req.session.userEmail; // how to get this data for later use
+
     res.json({ email: Email });
 
+
+  } catch (err) {
+    console.error(err);
+    res.status(500).send("Server error");
+  }
+});
+
+
+//admin login form 
+app.post("/adminLogin", async (req, res) => {
+  const { Email, userPassword } = req.body;
+  try {
+    const result = await db.query(
+      "SELECT password FROM adminstration WHERE email = $1",
+      [Email]
+    );
+
+    if (result.rows.length === 0) {
+      return res.status(400).json({ error: "User not found" });
+    }
+
+    const storedPassword = result.rows[0].password;
+
+    if (userPassword !== storedPassword) {
+      return res.status(401).json({ error: "Invalid credentials" });
+    }
+
+    res.json({ email: Email });
 
   } catch (err) {
     console.error(err);
@@ -125,8 +159,9 @@ app.get("/api/Products", async (req, res) => {
 });
 
 app.get("/api/myProducts", async (req, res) => {
+  const userEmail = req.session.userEmail;
     try {
-        const result = await db.query('SELECT u.name,p.product_name, p.description, p.contact, p.hostel, p.category, p.email, p.image, p.price  FROM products p join users u on p.email = u.email  where p.email = $1 AND approved= true;',[user_id]);
+        const result = await db.query('SELECT u.name,p.product_name, p.description, p.contact, p.hostel, p.category, p.email, p.image, p.price  FROM products p join users u on p.email = u.email  where p.email = $1 AND approved= true;',[userEmail]);
         res.json(result.rows);
     } catch (err) {
         console.error(err);
@@ -138,6 +173,7 @@ app.get("/api/myProducts", async (req, res) => {
 
 app.post("/sellProduct", upload.single("image"), async (req, res) => {
     // Create dictionary (JS object) from form
+    const userEmail = req.session.userEmail;
 
     const itemName = req.body.itemName
     const desc = req.body.desc
@@ -146,7 +182,7 @@ app.post("/sellProduct", upload.single("image"), async (req, res) => {
     const contact = req.body.contact
     const category = req.body.category
     const price = req.body.price
-    if(email!=user_id) {
+    if(email!=userEmail) {
       res.send(`
         <script>
             alert('email not matched with current user');
@@ -164,13 +200,15 @@ app.post("/sellProduct", upload.single("image"), async (req, res) => {
     res.send(`
         <script>
             alert('item will be added to store');
-            window.location.href = 'home.html'; 
+            window.location.href = 'buysell.html'; 
         </script>
     `);
 });
 
 
 app.post("/api/delete", async (req, res) => {
+  const userEmail = req.session.userEmail;
+
   try {
     const { product_name } = req.body;
 
@@ -180,7 +218,7 @@ app.post("/api/delete", async (req, res) => {
 
     const result = await db.query(
       "DELETE FROM products WHERE product_name = $1 and email = $2 RETURNING *",
-      [product_name,user_id]
+      [product_name,userEmail]
     );
 
     if (result.rowCount === 0) {
@@ -193,6 +231,57 @@ app.post("/api/delete", async (req, res) => {
     res.status(500).send("Error deleting product");
   }
 });
+
+// varifying the items listed for selling by any admin
+
+app.get('/api/Products/varifyList', async (req, res)=>{
+  try {
+        const result = await db.query('SELECT u.name,p.product_name, p.description, p.contact, p.hostel, p.category, p.email, p.image, p.price  FROM products p join users u on p.email = u.email  where approved= false');
+        res.json(result.rows);
+    } catch (err) {
+        console.error(err);
+        res.status(500).send("Error loading Products");
+    }
+})
+
+//removing if not appropriate
+app.post('/api/delete/admin', async (req, res)=>{
+  try {
+    const { product_name,email } = req.body;
+
+    if (!product_name) {
+      return res.status(400).send("Product name is required");
+    }
+
+    const result = await db.query(
+      "DELETE FROM products WHERE product_name = $1 and email = $2 RETURNING *",
+      [product_name,email]
+    );
+    res.status(200).send("Product deleted successfully");
+  } catch (err) {
+    console.error(err);
+    res.status(500).send("Error deleting product");
+  }
+})
+//approving valid sale products
+app.post('/api/approve/admin', async (req, res)=>{
+    try {
+    const { product_name,email } = req.body;
+
+    if (!product_name) {
+      return res.status(400).send("Product name is required");
+    }
+
+    const result = await db.query(
+      "update products set approved = $1 where product_name = $2 and email = $3 ",
+      [true,product_name,email]
+    );
+    res.status(200).send("Product Approved for sale successfully");
+  } catch (err) {
+    console.error(err);
+    res.status(500).send("Error approving product");
+  }
+})
 
 
 
