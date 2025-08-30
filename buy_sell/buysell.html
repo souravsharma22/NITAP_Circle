@@ -1,40 +1,98 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Buy & Sell</title>
-     <link rel="stylesheet" href="buysell.css">
+    <title>🛒NITAP Store</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+    <link rel="stylesheet" href="buysell.css">
+
 </head>
+
 <body>
-   <header>
-    <div class="header-container">
-        <div class="clg" >
-            <a href=""><h1>NIT ArP</h1></a>
-        </div>
-        <div class="logo">
-           <img src="./login_logo.png" 
-                alt="Logo">
-        </div>
-        <div class="btn">
-            <button onclick="window.location.href='home.html'">Home</button>
-            <button>Contact Us</button>
-        </div>
-    </div>
-   </header>
+    <header class="header">
 
-    <div class="notice">
-        <h2>Welcome Folks !</h2>
-        <h3>Click Here To See The Academic Notice</h3>
-        <button id="btn"><a href="#">See Here!</a></button>
-        <h3>Click Here To See The Hostel Notice</h3>
-        <button id="btn"><a href="#">See Here!</a></button>
-        <h3>Click Here To See The Others Notice</h3>
-        <button id="btn"><a href="#">See Here!</a></button>
-        
-    </div>
-     
+        <a href="#" class="logo" onclick="window.location.href='home.html'">Circle</a>
+        <input type="checkbox" name="" id="check">
+        <label for="check" class="icons">
+            <img src="./homeImages/menu.png" id="menu-icon" alt="">
+            <img src="./homeImages/cross.png" id="close-icon" alt="">
+        </label>
+        <nav class="navbar">
+
+            <a href="buysell.html" style="--i:3">Store</a>
+            <a href="#listYourItem" id="sell-btn" style="--i:0">Sell Product</a>
+            <a href="#Products" id="my-products" style="--i:1">My Products</a>
+            <a href="#Orders" style="--i:2">Orders</a>
 
 
+
+        </nav>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <h1>NITAP STORE</h1>
+        <p>The things you are looking for might be nearby..</p>
+        <form class="search-form">
+            <input list="searchOptions" name="search" placeholder="Search items..." required>
+            <datalist id="searchOptions">
+                <option value="Stationary">
+                <option value="Technical">
+                <option value="Utility">
+                <option value="Accessories">
+                <option value="Art">
+                <option value="Food">
+            </datalist>
+            <button type="submit" class="btn">Search</button>
+        </form>
+    </section>
+
+    <!-- List Your Item Form -->
+    <section id="form" class="form-section">
+        <div id="listYourItem">
+            <h2>List your item for selling</h2>
+            <form action="/sellProduct" method="post" enctype="multipart/form-data" id="sellForm">
+                <input type="text" name="itemName" placeholder="Item Name" required>
+                <input type="text" name="desc" placeholder="Description" required>
+                <input type="text" name="email" placeholder="College Mail" required>
+                <input type="text" name="hostel" placeholder="Hostel&Room" required>
+                <input type="text" name="contact" placeholder="Phone No" required pattern="[0-9]{10}" maxlength="10"
+                    title="Please enter a valid 10-digit phone number" />
+                <input type="text" name="price" placeholder="Price" required>
+
+                <select id="category" name="category" required>
+                    <option value="staionary">Stationary</option>
+                    <option value="technical">Technical</option>
+                    <option value="utility">Utility</option>
+                    <option value="accessories">Accessories</option>
+                    <option value="art">Art</option>
+                    <option value="food">Food</option>
+                </select>
+
+                <input type="file" name="image" accept="image/*">
+
+                <div class="form-buttons">
+                    <button type="submit" class="btn">Put for Sale</button>
+                    <button type="button" id="closeButton" class="btn close">Close Application</button>
+                </div>
+            </form>
+        </div>
+    </section>
+
+    <section id="Products">
+        <div class="row"  id="myProduct">
+
+        </div>
+    </section>
+
+    <section id="product-section">
+        <div class="row" id="productContainer"></div>
+    </section>
+
+    <script src="buysell.js"></script>
 </body>
+
 </html>

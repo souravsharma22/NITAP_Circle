@@ -12,6 +12,9 @@ import dotenv from 'dotenv'
 dotenv.config();
 
 
+//Variables for use
+let user_id;
+
 const app = express()
 const port = 3000;
 
@@ -83,7 +86,8 @@ app.post("/register", async (req, res) => {
 
 app.post("/login", async (req, res) => {
   const { Email, userPassword } = req.body;
-  console.log(Email, userPassword)
+  user_id = Email;
+  console.log(user_id);
 
   try {
     const result = await db.query("SELECT password FROM users WHERE email = $1", [Email]);
@@ -111,41 +115,87 @@ app.post("/login", async (req, res) => {
 
 
 
-app.get("/api/complaints", async (req, res) => {
+app.get("/api/Products", async (req, res) => {
     try {
-        const result = await db.query('SELECT * FROM complaints');
+        const result = await db.query('SELECT u.name,p.product_name, p.description, p.contact, p.hostel, p.category, p.email, p.image, p.price  FROM products p join users u on p.email = u.email  where approved= true');
         res.json(result.rows);
     } catch (err) {
         console.error(err);
-        res.status(500).send("Error loading complaints");
+        res.status(500).send("Error loading Products");
+    }
+});
+
+app.get("/api/myProducts", async (req, res) => {
+    try {
+        const result = await db.query('SELECT u.name,p.product_name, p.description, p.contact, p.hostel, p.category, p.email, p.image, p.price  FROM products p join users u on p.email = u.email  where p.email = $1 AND approved= true;',[user_id]);
+        res.json(result.rows);
+    } catch (err) {
+        console.error(err);
+        res.status(500).send("Error loading Products");
     }
 });
 
 
 
-app.post("/raise", upload.single("image"), async (req, res) => {
+app.post("/sellProduct", upload.single("image"), async (req, res) => {
     // Create dictionary (JS object) from form
 
-    const title = req.body.title
+    const itemName = req.body.itemName
     const desc = req.body.desc
-    const name = req.body.name
-    const roll = req.body.roll
     const email = req.body.email
     const hostel = req.body.hostel
-    const type = req.body.type
+    const contact = req.body.contact
+    const category = req.body.category
+    const price = req.body.price
+    if(email!=user_id) {
+      res.send(`
+        <script>
+            alert('email not matched with current user');
+            window.location.href = 'buysell.html'; 
+        </script>
+    `);
+    }
+    
     const image_name = req.file ? req.file.originalname : null
 
     const image_data = req.file ? fs.readFileSync(req.file.path) : null;
-    const result = await db.query('insert into complaints (title , description , name ,roll_no ,email ,hostel ,complaint_type , image_name , image) values ($1, $2,$3,$4,$5,$6,$7,$8, $9) ;',
-        [title, desc,name , roll , email , hostel , type , image_name , image_data]
+    const result = await db.query('insert into products (product_name , description , contact ,hostel ,category, email, image, price) values ($1, $2,$3,$4,$5,$6,$7,$8) ;',
+        [itemName, desc, contact ,hostel , category,email , image_data,price]
     );
     res.send(`
         <script>
-            alert('complaint registerd successfully!');
-            window.location.href = '/'; 
+            alert('item will be added to store');
+            window.location.href = 'home.html'; 
         </script>
     `);
 });
+
+
+app.post("/api/delete", async (req, res) => {
+  try {
+    const { product_name } = req.body;
+
+    if (!product_name) {
+      return res.status(400).send("Product name is required");
+    }
+
+    const result = await db.query(
+      "DELETE FROM products WHERE product_name = $1 and email = $2 RETURNING *",
+      [product_name,user_id]
+    );
+
+    if (result.rowCount === 0) {
+      return res.status(404).send("Id not matched, try logging again");
+    }
+
+    res.status(200).send("Product deleted successfully");
+  } catch (err) {
+    console.error(err);
+    res.status(500).send("Error deleting product");
+  }
+});
+
+
 
 app.listen(port, () => {
     console.log("lidtning on port number ", port);
