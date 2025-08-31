@@ -61,8 +61,8 @@ app.get("/", (req, res)=>{
 
 
 app.post("/register", async (req, res) => {
-  const { Name, Email, password, role, college_id } = req.body;
-  console.log(Email, Name, role,password)
+  const { Name, Email, password, college_id } = req.body;
+  // console.log(Email, Name,password)
 
   try {
     if (!password) {
@@ -72,8 +72,8 @@ app.post("/register", async (req, res) => {
     const hashedPassword = await bcrypt.hash(password, 10);
 
     const result = await db.query(
-      "INSERT INTO users (name, email, password, user_type, college_id) VALUES ($1, $2, $3, $4, $5) RETURNING *",
-      [Name, Email, hashedPassword, role, college_id]
+      "INSERT INTO users (name, email, password,college_id) VALUES ($1, $2, $3, $4) RETURNING *",
+      [Name, Email, hashedPassword, college_id]
     );
 
     res.redirect("/");
@@ -206,7 +206,7 @@ app.post("/sellProduct", upload.single("image"), async (req, res) => {
     `);
 });
 
-
+//deleting product from the selling options my product
 app.post("/api/delete", async (req, res) => {
   const userEmail = req.session.userEmail;
 
