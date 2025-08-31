@@ -47,5 +47,65 @@ form.addEventListener("submit", async (e) => {
     alert("Something went wrong");
   }
 });
+//holidays.js
+document.addEventListener("DOMContentLoaded", async () => {
+  try {
+    const currentYear = new Date().getFullYear();
+    const response = await fetch(`https://date.nager.at/api/v3/PublicHolidays/${currentYear}/IN`);
+    
+    if (!response.ok) {
+      throw new Error("Failed to fetch holidays: " + response.status);
+    }
 
+    const data = await response.json();
+    console.log("API Response:", data); 
+
+    const tbody = document.getElementById("holidays-body");
+    if (!tbody) {
+      console.error(" Could not find #holidays-body element");
+      return;
+    }
+
+    tbody.innerHTML = ""; 
+
+    const today = new Date();
+    const currentMonth = today.getMonth() + 1;
+
+    
+    let holidays = data.filter(holiday => {
+      const holidayMonth = new Date(holiday.date).getMonth() + 1;
+      return holidayMonth === currentMonth;
+    });
+
+    
+    if (holidays.length === 0) {
+      console.warn("No holidays this month, showing next upcoming ones...");
+      holidays = data.filter(holiday => new Date(holiday.date) >= today);
+    }
+
+    
+    if (holidays.length === 0) {
+      tbody.innerHTML = `
+        <tr>
+          <td colspan="3" class="text-center">No upcoming holidays found</td>
+        </tr>
+      `;
+      return;
+    }
+
+    
+    holidays.forEach((holiday, index) => {
+      const row = `
+        <tr>
+          <th scope="row">${index + 1}</th>
+          <td>${new Date(holiday.date).toLocaleDateString("en-IN", { day: "numeric", month: "short", year: "numeric" })}</td>
+          <td>${holiday.localName}</td>
+        </tr>
+      `;
+      tbody.innerHTML += row;
+    });
+  } catch (error) {
+    console.error(" Error fetching holidays:", error);
+  }
+});
 
