@@ -37,6 +37,7 @@ const __dirname = dirname(fileURLToPath(import.meta.url));
 app.use(bodyParser.urlencoded({extended:true}));
 app.use(express.json());
 app.use(express.static(path.join(__dirname, "public")));
+app.use(express.static(path.join(__dirname, "academic")));
 app.use(express.static(path.join(__dirname, "admin")));
 app.use(express.static(path.join(__dirname, "buy_sell")));
 app.use(express.static(path.join(__dirname, "LossFound")));
