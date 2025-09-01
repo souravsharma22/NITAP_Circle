@@ -1,44 +1,127 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Lost & Found</title>
-     <link rel="stylesheet" href="loss.css">
+    <title>🛒NITAP Store</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+    <link rel="stylesheet" href="loss.css">
+
 </head>
+
 <body>
-    <img src="./" alt="">
-   <header>
-    <div class="header-container">
-        <div class="clg" >
-            <a href="https://www.nitap.ac.in/."><h1>NIT ArP</h1></a>
+    <header class="header">
+
+        <a href="#" class="logo" onclick="window.location.href='home.html'">Circle</a>
+        <input type="checkbox" name="" id="check">
+        <label for="check" class="icons">
+            <img src="search.png" id="menu-icon" alt="">
+            <img src="./homeImages/cross.png" id="close-icon" alt="">
+        </label>
+        <nav class="navbar">
+                    <form class="search-form">
+                        <input list="searchOptions" name="search" placeholder="Search items..." required>
+                        <datalist id="searchOptions">
+                            <option value="Stationary">
+                            <option value="Technical">
+                            <option value="Utility">
+                            <option value="Accessories">
+                            <option value="Art">
+                            <option value="Food">
+                        </datalist>
+                        <button type="submit" class="btn">Search</button>
+                    </form>
+
+
+        </nav>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <h1>Lost & Found </h1>
+        <p>Found something! list found so that owner can claim it. </p>
+         <p> Or lost anything make a lost request</p>
+         <a href="#listFoundItem" id="FoundItem-form" class="btn">List item you found</a>
+         <p></p>
+         <a href="#listLostItem" id="LostItems-form" class="btn">Put Loss Request</a>
+
+         <!-- <div>
+                <a href="#listFoundItem" id="FoundItem-form" class="btn">List item you found</a>
+
+         </div> -->
+    </section>
+
+    <!-- List Your Item Form -->
+    <section id="form-found" class="form-section">
+        <div id="listFoundItem">
+            <h2>List found item so that owner can claim it</h2>
+            <form action="/FoundListing" method="post" enctype="multipart/form-data" id="sellForm">
+                <input type="text" name="itemName" placeholder="Item Name" required>
+                <input type="text" name="desc" placeholder="Description" required>
+                <input type="text" name="email" placeholder="College Mail" required>
+                <input type="text" name="hostel" placeholder="Collect Location" required>
+                <input type="text" name="contact" placeholder="Phone No" required pattern="[0-9]{10}" maxlength="10"
+                    title="Please enter a valid 10-digit phone number" />
+                <select id="category" name="category" required>
+                    <option value="staionary">Stationary</option>
+                    <option value="technical">Technical</option>
+                    <option value="utility">Utility</option>
+                    <option value="accessories">Accessories</option>
+                    <option value="art">Art</option>
+                    <option value="food">Food</option>
+                </select>
+
+                <input type="file" name="image" accept="image/*">
+
+                <div class="form-buttons">
+                    <button type="submit" class="btn">List on Found Items</button>
+                    <button type="button" id="closeButtonfound" class="btn close">Close Application</button>
+                </div>
+            </form>
         </div>
-        <div class="logo">
-           <img src="./login_logo.png" 
-                alt="Logo">
+    </section>
+    <section id="form-lost" class="form-section">
+        <div id="listLostItem">
+            <h2>Give details of item you LOST in details </h2>
+            <form action="/LostListing" method="post" enctype="multipart/form-data" id="sellForm">
+                <input type="text" name="itemName" placeholder="Item Name" required>
+                <input type="text" name="desc" placeholder="Description" required>
+                <input type="text" name="email" placeholder="College Mail" required>
+                <input type="text" name="hostel" placeholder="Collect Location" required>
+                <input type="text" name="contact" placeholder="Phone No" required pattern="[0-9]{10}" maxlength="10"
+                    title="Please enter a valid 10-digit phone number" />
+                <select id="category" name="category" required>
+                    <option value="staionary">Stationary</option>
+                    <option value="technical">Technical</option>
+                    <option value="utility">Utility</option>
+                    <option value="accessories">Accessories</option>
+                    <option value="art">Art</option>
+                    <option value="food">Food</option>
+                </select>
+
+                <input type="file" name="image" accept="image/*">
+
+                <div class="form-buttons">
+                    <button type="submit" class="btn">List on Found Items</button>
+                    <button type="button" id="closeButtonlost" class="btn close">Close Application</button>
+                </div>
+            </form>
         </div>
-        <div class="btn">
+    </section>
 
-            <button onclick="window.location.href='home.html'">Home</button>
-            <button>Query</button>
-            <button>Contact Us</button>
+    <section id="found-section">
+        <div class="row"  id="found-items">
+
         </div>
-    </div>
-   </header>
-    
+    </section>
 
-   <main class="main">
-    <h3>See Your Previous Queries</h3>
-    <button id="btn">See Here!</button>
-    <h3>Add New Queries</h3>
-    <form action="post">
-        <button id="btn">Add</button>
-    </form>
-    
-   </main>
-    
-     
+    <section id="lost-section">
+        <div class="row" id="lost-items"></div>
+    </section>
 
-
+    <script src="loss.js"></script>
 </body>
+
 </html>
