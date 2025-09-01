@@ -109,3 +109,19 @@ document.addEventListener("DOMContentLoaded", async () => {
   }
 });
 
+//Email Verification 
+
+async function sendEmail() {
+  const response = await fetch("/send-email", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      to: "receiver@example.com",
+      subject: "Varification code for Email",
+      text: ""
+    })
+  });
+
+  const result = await response.json();
+  alert(result.message);
+}
