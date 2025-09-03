@@ -92,3 +92,13 @@ p a:hover {
 }
 
    /* Your existing styles */
+/* // otpverify */
+#otpverify{
+    display: none;
+}
+#status{
+    display: none;
+}
+#registration-verify{
+    display: none;
+}

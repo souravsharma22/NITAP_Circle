@@ -34,22 +34,32 @@
 
         </div>
         <div class="form-box" id="register-form">
-            <form action="/register" method="post">
-                <h2>Register</h2>
-                <input type="text" name="Name" id="name" placeholder="Full Name">
-                <input type="email" name="Email" placeholder="Email" pattern="[a-zA-Z0-9._%+-]+@nitap\.ac\.in"
+            <h2>Register</h2>
+            <form id="emailForm">
+                <input type="email" name="Email" id="to" placeholder="College Email" pattern="^[a-zA-Z0-9._%+-]+@nitap\.ac\.in$"
                     title="Please enter a valid NITAP email (e.g., user@nitap.ac.in)" required>
-                <input type="text" name="college_id" placeholder="College-ID" required>
 
-                <input type="password" name="password" placeholder="Password" required
+                <button type="submit">Send Email</button>
+            </form>
+            <form id="otpverify">
+                <input type="text" id="otp-in" placeholder="Enter otp sent">
+                <button id="otp-btn">Verify</button>
+            </form>
+            <p id="status">Sending otp..(ensure good internet)</p>
+            <form id="registration-verify">
+                
+                <input type="text" name="Name" id="name" placeholder="Full Name">
+                
+                <input type="text" name="college_id" id="college-id" placeholder="College-ID" required>
+
+                <input type="password" name="password" id="reg-password" placeholder="Password" required
                     pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$"
                     title="Password must be at least 8 characters long, include uppercase, lowercase, a number, and a special character.">
-
-                
                 <button type="submit" name="register"> Register
                 </button>
                 <p>Already have an account? <a href="#" onclick="showForm('login-form')">Login</a></p>
             </form>
+
         </div>
     </div>
     <script src="script.js"></script>

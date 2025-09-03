@@ -13,7 +13,7 @@ dotenv.config();
 
 
 import  session  from 'express-session';
-
+import nodemailer from 'nodemailer'
 
 
 
@@ -51,17 +51,52 @@ const db = new Pool({
 
 db.connect();
 
-
-
-
+// Setup transporter with Gmail SMTP
+const transporter = nodemailer.createTransport({
+  host: "smtp.gmail.com",
+  port: 465,
+  secure: true,
+  auth: {
+    user: process.env.GMAIL_USER,
+    pass: process.env.GMAIL_PASS,
+  },
+  connectionTimeout:10000
+});
 
 app.get("/", (req, res)=>{
     res.sendFile(__dirname +'/index.html')
 })
 
+//helping function to check valid email
+function validateNitapEmail(email) {
+  return /^[a-zA-Z0-9._%+-]+@nitap\.ac\.in$/.test(email);
+}
+
+app.post("/send-email", async (req, res) => {
+  try {
+    const { to, subject, text } = req.body;
+    if (!validateNitapEmail(to)) {
+    return res.status(400).json({ error: "Invalid email. Use your nitap.ac.in email." });
+    }
+
+    await transporter.sendMail({
+      from: `"NITAP CIRCLE" <${process.env.GMAIL_USER}>`,
+      to,
+      subject,
+      text,
+    });
+
+    res.json({ message: "✅ Email sent successfully!" });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: "❌ Failed to send email. check email" });
+  }
+});
+
+
 
 app.post("/register", async (req, res) => {
-  const { Name, Email, password, college_id } = req.body;
+  const { Name,Email, password, college_id } = req.body;
   // console.log(Email, Name,password)
 
   try {
@@ -79,10 +114,12 @@ app.post("/register", async (req, res) => {
     res.redirect("/");
   } catch (err) {
     if (err.code === "23505") {
-      res.status(400).send("Email already exists");
+      res.status(400).json({ error: "Email already exists" });
+
     } else {
       console.error(err);
-      res.status(500).send("Server error");
+      res.status(500).json({ error: "Server Error" });
+
     }
   }
 });

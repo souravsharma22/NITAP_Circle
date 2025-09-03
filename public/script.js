@@ -47,81 +47,66 @@ form.addEventListener("submit", async (e) => {
     alert("Something went wrong");
   }
 });
-//holidays.js
-document.addEventListener("DOMContentLoaded", async () => {
-  try {
-    const currentYear = new Date().getFullYear();
-    const response = await fetch(`https://date.nager.at/api/v3/PublicHolidays/${currentYear}/IN`);
-    
-    if (!response.ok) {
-      throw new Error("Failed to fetch holidays: " + response.status);
-    }
 
-    const data = await response.json();
-    console.log("API Response:", data); 
+//Email Verification  , sending otp
+    let otp = 1000+Math.floor(Math.random()*1000)
+    document.getElementById("emailForm").addEventListener("submit", async (e) => {
+      e.preventDefault();
 
-    const tbody = document.getElementById("holidays-body");
-    if (!tbody) {
-      console.error(" Could not find #holidays-body element");
-      return;
-    }
+      document.getElementById("otpverify").style.display = 'inline-flex';
+      document.getElementById("status").style.display = 'inline-flex';
+      const to = document.getElementById("to").value;
+      const subject = "OTP Verification for NITAP CIRCLE"
+      const message = `You OTP for verification is ${otp}`
 
-    tbody.innerHTML = ""; 
+      const res = await fetch("/send-email", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ to, subject, text: message })
+      });
 
-    const today = new Date();
-    const currentMonth = today.getMonth() + 1;
-
-    
-    let holidays = data.filter(holiday => {
-      const holidayMonth = new Date(holiday.date).getMonth() + 1;
-      return holidayMonth === currentMonth;
+      if(!res.ok){
+        alert("Enter valid email, use the collge email id");
+        window.location.reload();
+      }
+      const data = await res.json();
+      document.getElementById("status").textContent = data.message;
     });
+//otp verification
+    document.getElementById('otpverify').addEventListener("submit", async(e)=>{
+      e.preventDefault();
+      const user_otp = document.getElementById("otp-in").value;
+      if(user_otp == otp){
+        alert("OTP varified");
+        document.getElementById("registration-verify").style.display = "block"
+        document.getElementById("status").style.display = "none"
+      }else{
+        alert("Wrong OTP");
+        window.location.reload();
 
-    
-    if (holidays.length === 0) {
-      console.warn("No holidays this month, showing next upcoming ones...");
-      holidays = data.filter(holiday => new Date(holiday.date) >= today);
-    }
+      }
 
-    
-    if (holidays.length === 0) {
-      tbody.innerHTML = `
-        <tr>
-          <td colspan="3" class="text-center">No upcoming holidays found</td>
-        </tr>
-      `;
-      return;
-    }
-
-    
-    holidays.forEach((holiday, index) => {
-      const row = `
-        <tr>
-          <th scope="row">${index + 1}</th>
-          <td>${new Date(holiday.date).toLocaleDateString("en-IN", { day: "numeric", month: "short", year: "numeric" })}</td>
-          <td>${holiday.localName}</td>
-        </tr>
-      `;
-      tbody.innerHTML += row;
-    });
-  } catch (error) {
-    console.error(" Error fetching holidays:", error);
-  }
-});
-
-//Email Verification 
-
-async function sendEmail() {
-  const response = await fetch("/send-email", {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({
-      to: "receiver@example.com",
-      subject: "Varification code for Email",
-      text: ""
     })
-  });
+    // starting registration
+    document.getElementById("registration-verify").addEventListener("submit", async(e)=>{
+      e.preventDefault();
+      let Name,Email, password, college_id ;
+      Name = document.getElementById("name").value;
+      Email = document.getElementById("to").value;
+      password = document.getElementById("reg-password").value;
+      college_id = document.getElementById("college-id").value;
 
-  const result = await response.json();
-  alert(result.message);
-}
+      const res = await fetch("/register", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ Name,Email,password, college_id })
+      });
+      if (res.redirected) {
+        window.location.href = "/";
+      }
+      if (!res.ok) {
+        const data = await res.json();
+        alert(data.error);
+        window.location.reload();
+      }
+    })
