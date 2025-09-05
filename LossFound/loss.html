@@ -21,18 +21,18 @@
             <img src="./homeImages/cross.png" id="close-icon" alt="">
         </label>
         <nav class="navbar">
-                    <form class="search-form">
-                        <input list="searchOptions" name="search" placeholder="Search items..." required>
-                        <datalist id="searchOptions">
-                            <option value="Stationary">
-                            <option value="Technical">
-                            <option value="Utility">
-                            <option value="Accessories">
-                            <option value="Art">
-                            <option value="Food">
-                        </datalist>
-                        <button type="submit" class="btn">Search</button>
-                    </form>
+            <form class="search-form">
+                <input list="searchOptions" name="search" placeholder="Search items..." required>
+                <datalist id="searchOptions">
+                    <option value="Stationary">
+                    <option value="Technical">
+                    <option value="Utility">
+                    <option value="Accessories">
+                    <option value="Art">
+                    <option value="Food">
+                </datalist>
+                <button type="submit" class="btn">Search</button>
+            </form>
 
 
         </nav>
@@ -42,15 +42,20 @@
     <section class="hero">
         <h1>Lost & Found </h1>
         <p>Found something! list found so that owner can claim it. </p>
-         <p> Or lost anything make a lost request</p>
-         <a href="#listFoundItem" id="FoundItem-form" class="btn">List item you found</a>
-         <p></p>
-         <a href="#listLostItem" id="LostItems-form" class="btn">Put Loss Request</a>
+        <p> Or lost anything make a lost request</p>
+        <a href="#listFoundItem" id="FoundItem-form" class="btn">List item you found</a>
+        <p></p>
+        <a href="#listLostItem" id="LostItems-form" class="btn">Put Loss Request</a>
+        <p></p>
+        <p></p>
+        <p></p>
+        <p></p>
+        <div id="items">
+            <a href="#found-items-container" id="found-items" class="btn">Found Items</a>
+            <p></p>
+            <a href="#lost-items-container" id="lost-items" class="btn">Lost Items</a>
 
-         <!-- <div>
-                <a href="#listFoundItem" id="FoundItem-form" class="btn">List item you found</a>
-
-         </div> -->
+        </div>
     </section>
 
     <!-- List Your Item Form -->
@@ -60,8 +65,7 @@
             <form action="/FoundListing" method="post" enctype="multipart/form-data" id="sellForm">
                 <input type="text" name="itemName" placeholder="Item Name" required>
                 <input type="text" name="desc" placeholder="Description" required>
-                <input type="text" name="email" placeholder="College Mail" required>
-                <input type="text" name="hostel" placeholder="Collect Location" required>
+                <input type="text" name="foundLocation" placeholder="Found Location" required>
                 <input type="text" name="contact" placeholder="Phone No" required pattern="[0-9]{10}" maxlength="10"
                     title="Please enter a valid 10-digit phone number" />
                 <select id="category" name="category" required>
@@ -88,8 +92,7 @@
             <form action="/LostListing" method="post" enctype="multipart/form-data" id="sellForm">
                 <input type="text" name="itemName" placeholder="Item Name" required>
                 <input type="text" name="desc" placeholder="Description" required>
-                <input type="text" name="email" placeholder="College Mail" required>
-                <input type="text" name="hostel" placeholder="Collect Location" required>
+                <input type="text" name="lossLocation" placeholder="Losing Location" required>
                 <input type="text" name="contact" placeholder="Phone No" required pattern="[0-9]{10}" maxlength="10"
                     title="Please enter a valid 10-digit phone number" />
                 <select id="category" name="category" required>
@@ -104,7 +107,7 @@
                 <input type="file" name="image" accept="image/*">
 
                 <div class="form-buttons">
-                    <button type="submit" class="btn">List on Found Items</button>
+                    <button type="submit" class="btn">Post Lost Request</button>
                     <button type="button" id="closeButtonlost" class="btn close">Close Application</button>
                 </div>
             </form>
@@ -112,13 +115,16 @@
     </section>
 
     <section id="found-section">
-        <div class="row"  id="found-items">
+        <div class="row" id="found-items-container">
+            <h1>List of items found</h1>
 
         </div>
     </section>
 
     <section id="lost-section">
-        <div class="row" id="lost-items"></div>
+        <div class="row" id="lost-items-container">
+            <h1>List of Lost Item Requests</h1>
+        </div>
     </section>
 
     <script src="loss.js"></script>
