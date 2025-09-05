@@ -258,6 +258,13 @@
   .contents{
     grid-template-columns: 1fr;
   }
+  .content{
+    min-height: auto;
+    padding: 25px 15px;
+  }
+  .content-desc p{
+    display: none;
+  }
 }
 
 
