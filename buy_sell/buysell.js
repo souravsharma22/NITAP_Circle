@@ -103,7 +103,7 @@ async function loadMyProducts() {
           <li class="list-group-item"><strong>Price:</strong> ₹${c.price}</li>
         </ul>
         <div class="card-body">
-          <button type="button" class="btn btn-danger removeitem" data-name="${c.product_name}">
+          <button type="button" class="btn btn-danger removeitem" data-id="${c.product_id}" data-name="${c.product_name}">
             Remove item
           </button>
         </div>
@@ -121,6 +121,7 @@ document.getElementById('my-products').addEventListener('click', function () {
   document.getElementById("myProduct").addEventListener("click", async function(e) {
     if (e.target && e.target.classList.contains("removeitem")) {
       const productName = e.target.dataset.name;
+      const product_id = e.target.dataset.id;
 
       if (!confirm(`Are you sure you want to remove "${productName}"?`)) return;
 
@@ -130,7 +131,7 @@ document.getElementById('my-products').addEventListener('click', function () {
           headers: {
             "Content-Type": "application/json"
           },
-          body: JSON.stringify({ product_name: productName })
+          body: JSON.stringify({ product_id: product_id })
         });
 
         if (res.ok) {

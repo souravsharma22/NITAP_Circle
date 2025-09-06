@@ -43,16 +43,16 @@ async function loadProductsforVarification() {
           <li class="list-group-item"><strong>Price:</strong> ₹${c.price}</li>
         </ul>
         <div class="card-body">
-          <button type="button" class="btn btn-danger approveitem" data-name="${c.product_name}" data-email ="${c.email}">
+          <button type="button" class="btn btn-danger approveitem" data-id = "${c.product_id}" data-name="${c.product_name}" data-email ="${c.email}">
             Approve item
           </button>
-          <button type="button" class="btn btn-danger removeitem" data-name="${c.product_name}" data-email ="${c.email}">
+          <button type="button" class="btn btn-danger removeitem" data-id = "${c.product_id}" data-name="${c.product_name}" data-email ="${c.email}">
             Remove item
           </button>
         </div>
       </div>
     `;
-    document.getElementById("products").insertAdjacentHTML("beforeend", cardHTML);
+    document.getElementById("products").insertAdjacentHTML("beforeend",  `<div class="col-sm-6 col-md-4 col-lg-3">${cardHTML}</div>`);
   });
 }
 
@@ -63,16 +63,17 @@ document.getElementById("products").addEventListener("click", async function(e) 
   if (e.target && e.target.classList.contains("removeitem")) {
     const productName = e.target.dataset.name;
     const userEmail = e.target.dataset.email;
+    const id = e.target.dataset.id;
 
     if (!confirm(`Are you sure you want to remove "${productName}"?`)) return;
 
     try {
-      const res = await fetch("/api/delete/admin", {
+      const res = await fetch("/api/delete/admin/store", {
         method: "POST",
         headers: {
           "Content-Type": "application/json"
         },
-        body: JSON.stringify({ product_name: productName , email: userEmail})
+        body: JSON.stringify({ product_id:id , email: userEmail})
       });
 
       if (res.ok) {
@@ -92,17 +93,18 @@ document.getElementById("products").addEventListener("click", async function(e) 
   if (e.target && e.target.classList.contains("approveitem")) {
     const productName = e.target.dataset.name;
     const userEmail = e.target.dataset.email;
+    const id = e.target.dataset.id;
 
 
     if (!confirm(`Do you want to approve "${productName}"?`)) return;
 
     try {
-      const res = await fetch("/api/approve/admin", {
+      const res = await fetch("/api/approve/admin/store", {
         method: "POST",
         headers: {
           "Content-Type": "application/json"
         },
-        body: JSON.stringify({ product_name: productName, email: userEmail })
+        body: JSON.stringify({ product_id: id, email: userEmail })
       });
 
       if (res.ok) {

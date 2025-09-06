@@ -14,7 +14,9 @@ dotenv.config();
 
 import  session  from 'express-session';
 import nodemailer from 'nodemailer'
+import pgSession from "connect-pg-simple";
 
+const PgSession = pgSession(session);
 
 
 //Variables for use
@@ -23,12 +25,6 @@ import nodemailer from 'nodemailer'
 const app = express()
 const port = 3000;
 
-app.use(session({
-  secret: "mynameisBATMAN",  
-  resave: false,
-  saveUninitialized: false,
-  cookie: { secure: false }  // set to true if using HTTPS
-}));
 
 const upload = multer({ dest: 'uploads/' })
 const __dirname = dirname(fileURLToPath(import.meta.url));
@@ -50,6 +46,22 @@ const db = new Pool({
 });
 
 db.connect();
+//using session storage to save the email of current user
+app.use(
+  session({
+    store: new PgSession({
+      pool: db,            // connection pool
+      tableName: "user_sessions" // optional, defaults to "session"
+    }),
+    secret: "mynameisBATMAN",
+    resave: false,
+    saveUninitialized: false,
+    cookie: {
+      maxAge: 1000 * 60 * 60 * 24*7, // 7 day
+      secure: false                // true if HTTPS
+    }
+  })
+);
 
 // Setup transporter with Gmail SMTP
 const transporter = nodemailer.createTransport({
@@ -199,7 +211,7 @@ app.get("/api/Products", async (req, res) => {
 app.get("/api/myProducts", async (req, res) => {
   const userEmail = req.session.userEmail;
     try {
-        const result = await db.query('SELECT u.name,p.product_name, p.description, p.contact, p.hostel, p.category, p.email, p.image, p.price  FROM products p join users u on p.email = u.email  where p.email = $1 AND approved= true;',[userEmail]);
+        const result = await db.query('SELECT u.name,p.product_id ,p.product_name, p.description, p.contact, p.hostel, p.category, p.email, p.image, p.price  FROM products p join users u on p.email = u.email  where p.email = $1 AND approved= true;',[userEmail]);
         res.json(result.rows);
     } catch (err) {
         console.error(err);
@@ -207,10 +219,31 @@ app.get("/api/myProducts", async (req, res) => {
     }
 });
 
+//deleting product from the selling options my product
+app.post("/api/delete", async (req, res) => {
+  const userEmail = req.session.userEmail;
+
+  try {
+    const { product_id } = req.body;
+
+    const result = await db.query(
+      "DELETE FROM products WHERE product_id = $1 and email = $2 RETURNING *",
+      [product_id,userEmail]
+    );
+
+    if (result.rowCount === 0) {
+      return res.status(404).send("Id not matched, try logging again");
+    }
+
+    res.status(200).send("Product deleted successfully");
+  } catch (err) {
+    console.error(err);
+    res.status(500).send("Error deleting product");
+  }
+});
 
 
 app.post("/sellProduct", upload.single("image"), async (req, res) => {
-    // Create dictionary (JS object) from form
     const userEmail = req.session.userEmail;
 
     const itemName = req.body.itemName
@@ -223,7 +256,7 @@ app.post("/sellProduct", upload.single("image"), async (req, res) => {
     if(email!=userEmail) {
       res.send(`
         <script>
-            alert('email not matched with current user');
+            alert('email not matched with current user\n Or session expired login again');
             window.location.href = 'buysell.html'; 
         </script>
     `);
@@ -243,38 +276,12 @@ app.post("/sellProduct", upload.single("image"), async (req, res) => {
     `);
 });
 
-//deleting product from the selling options my product
-app.post("/api/delete", async (req, res) => {
-  const userEmail = req.session.userEmail;
-
-  try {
-    const { product_name } = req.body;
-
-    if (!product_name) {
-      return res.status(400).send("Product name is required");
-    }
-
-    const result = await db.query(
-      "DELETE FROM products WHERE product_name = $1 and email = $2 RETURNING *",
-      [product_name,userEmail]
-    );
-
-    if (result.rowCount === 0) {
-      return res.status(404).send("Id not matched, try logging again");
-    }
-
-    res.status(200).send("Product deleted successfully");
-  } catch (err) {
-    console.error(err);
-    res.status(500).send("Error deleting product");
-  }
-});
 
 // varifying the items listed for selling by any admin
 
 app.get('/api/Products/varifyList', async (req, res)=>{
   try {
-        const result = await db.query('SELECT u.name,p.product_name, p.description, p.contact, p.hostel, p.category, p.email, p.image, p.price  FROM products p join users u on p.email = u.email  where approved= false');
+        const result = await db.query('SELECT u.name,p.product_id,p.product_name, p.description, p.contact, p.hostel, p.category, p.email, p.image, p.price  FROM products p join users u on p.email = u.email  where approved= false');
         res.json(result.rows);
     } catch (err) {
         console.error(err);
@@ -283,17 +290,13 @@ app.get('/api/Products/varifyList', async (req, res)=>{
 })
 
 //removing if not appropriate
-app.post('/api/delete/admin', async (req, res)=>{
+app.post('/api/delete/admin/store', async (req, res)=>{
   try {
-    const { product_name,email } = req.body;
-
-    if (!product_name) {
-      return res.status(400).send("Product name is required");
-    }
+    const { product_id,email } = req.body;
 
     const result = await db.query(
-      "DELETE FROM products WHERE product_name = $1 and email = $2 RETURNING *",
-      [product_name,email]
+      "DELETE FROM products WHERE product_id = $1 and email = $2 RETURNING *",
+      [product_id,email]
     );
     res.status(200).send("Product deleted successfully");
   } catch (err) {
@@ -302,17 +305,13 @@ app.post('/api/delete/admin', async (req, res)=>{
   }
 })
 //approving valid sale products
-app.post('/api/approve/admin', async (req, res)=>{
+app.post('/api/approve/admin/store', async (req, res)=>{
     try {
-    const { product_name,email } = req.body;
-
-    if (!product_name) {
-      return res.status(400).send("Product name is required");
-    }
+    const { product_id,email } = req.body;
 
     const result = await db.query(
-      "update products set approved = $1 where product_name = $2 and email = $3 ",
-      [true,product_name,email]
+      "update products set approved = $1 where product_id = $2 and email = $3 ",
+      [true,product_id,email]
     );
     res.status(200).send("Product Approved for sale successfully");
   } catch (err) {
@@ -320,6 +319,168 @@ app.post('/api/approve/admin', async (req, res)=>{
     res.status(500).send("Error approving product");
   }
 })
+
+//lost and found server----
+
+//listing found items request
+app.post("/FoundListing", upload.single("image"), async (req, res) => {
+    const userEmail = req.session.userEmail;
+    const itemName = req.body.itemName
+    const desc = req.body.desc
+    const foundLocation = req.body.foundLocation
+    const contact = req.body.contact
+    const category = req.body.category
+    
+    const image_name = req.file ? req.file.originalname : null
+
+    const image_data = req.file ? fs.readFileSync(req.file.path) : null;
+    const result = await db.query('insert into found_items (name , description , contact ,location ,category, email, image) values ($1, $2,$3,$4,$5,$6,$7) ;',
+        [itemName, desc, contact ,foundLocation , category,userEmail , image_data]
+    );
+    res.send(`
+        <script>
+            alert('item will be added to found items list');
+            window.location.href = 'loss.html'; 
+        </script>
+    `);
+});
+
+//listing lost request
+app.post("/LostListing", upload.single("image"), async (req, res) => {
+    const userEmail = req.session.userEmail;
+    const itemName = req.body.itemName
+    const desc = req.body.desc
+    const lossLocation = req.body.lossLocation
+    const contact = req.body.contact
+    const category = req.body.category
+    
+    
+    
+    const image_name = req.file ? req.file.originalname : null
+
+    const image_data = req.file ? fs.readFileSync(req.file.path) : null;
+    const result = await db.query('insert into lost_items (name , description , contact ,location ,category, email, image) values ($1, $2,$3,$4,$5,$6,$7) ;',
+        [itemName, desc, contact ,lossLocation , category,userEmail , image_data]
+    );
+    res.send(`
+        <script>
+            alert('Request will be added to loss items request list');
+            window.location.href = 'loss.html'; 
+        </script>
+    `);
+});
+
+
+//loading found items 
+app.get("/api/found_Items", async (req, res) => {
+    try {
+        const result = await db.query('SELECT u.name as username,p.name, p.description, p.contact, p.location, p.category, p.email, p.image, p.found_date  FROM found_items p join users u on p.email = u.email  where approved= true');
+        res.json(result.rows);
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({error:"Error loading Products"});
+    }
+});
+
+//loading lost items request
+app.get("/api/lost_Items", async (req, res) => {
+    try {
+        const result = await db.query('SELECT u.name as username,p.name, p.description, p.contact, p.location, p.category, p.email, p.image, p.lost_date, p.lost_time  FROM lost_items p join users u on p.email = u.email  where approved= true');
+        res.json(result.rows);
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({error:"Error loading Products"});
+    }
+});
+/////////   Admin Server for lost and found ////////
+
+//loading loss requests for the admin
+app.get('/api/lostitems/varifyList', async (req, res)=>{
+  try {
+        const result = await db.query('SELECT u.name as username,p.id,p.name, p.description, p.contact, p.location, p.category, p.email, p.image, p.lost_date, p.lost_time  FROM lost_items p join users u on p.email = u.email  where approved= false order by p.lost_date desc');
+        res.json(result.rows);
+    } catch (err) {
+        console.error(err);
+        res.status(500).send("Error loading Products");
+    }
+})
+//deleting the lost request by admin
+app.post('/api/delete/admin/lostRequest', async (req, res)=>{
+  try {
+    const { id ,email } = req.body;
+
+    const result = await db.query(
+      "DELETE FROM lost_items WHERE id = $1 and email = $2 RETURNING *",
+      [id,email]
+    );
+    res.status(200).send("Request deleted successfully");
+  } catch (err) {
+    console.error(err);
+    res.status(500).send("Error deleting product");
+  }
+})
+//approving the request by admin 
+app.post('/api/approve/admin/lostRequest', async (req, res)=>{
+    try {
+    const { id ,email } = req.body;
+
+    const result = await db.query(
+      "update lost_items set approved = $1 where id = $2 and email = $3 ",
+      [true,id,email]
+    );
+    res.status(200).send("Request Approved, will be added to list of lost items");
+  } catch (err) {
+    console.error(err);
+    res.status(500).send("Error approving product");
+  }
+})
+
+///found requests---------------
+//loading found requests for the admin
+app.get('/api/founditems/varifyList', async (req, res)=>{
+  try {
+        const result = await db.query('SELECT u.name as username, p.id ,p.name, p.description, p.contact, p.location, p.category, p.email, p.image, p.found_date FROM found_items p join users u on p.email = u.email  where approved= false order by p.found_date desc');
+        res.json(result.rows);
+    } catch (err) {
+        console.error(err);
+        res.status(500).send("Error loading Products");
+    }
+})
+
+// approving the found item request
+app.post('/api/approve/admin/foundRequest', async (req, res)=>{
+    try {
+    const { id,email } = req.body;
+
+    const result = await db.query(
+      "update found_items set approved = $1 where id = $2 and email = $3 ",
+      [true,id,email]
+    );
+    res.status(200).send("Request Approved, will be added to list of lost items");
+  } catch (err) {
+    console.error(err);
+    res.status(500).send("Error approving product");
+  }
+})
+
+//deleting the found request by admin
+app.post('/api/delete/admin/foundRequest', async (req, res)=>{
+  try {
+    const { id ,email } = req.body;
+
+    const result = await db.query(
+      "DELETE FROM found_items WHERE id = $1 and email = $2 RETURNING *",
+      [id,email]
+    );
+    res.status(200).send("Request deleted successfully");
+  } catch (err) {
+    console.error(err);
+    res.status(500).send("Error deleting product");
+  }
+})
+
+
+
 
 
 

@@ -1,0 +1,25 @@
+
+#listbuttons{
+    display: flex;
+    justify-content: center;
+    gap: 50px;
+    align-items: center;
+}
+
+#lost-items{
+    display: flex;
+    margin: 0;
+    padding: 32px;
+    background-color: #0f172a;
+}
+.approveitem{
+  background-color: rgb(47, 255, 50);
+    color: #0f172a;
+}
+
+#found-items{
+    display: flex;
+    margin: 0;
+    padding: 32px;
+    background-color: #01184d;
+}
