@@ -1,0 +1,38 @@
+#heading{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 30px;
+    gap: 25px;
+    background-color: brown;
+}
+
+#backbtn{
+    color: black;
+    align-items: center;
+    justify-content: center;
+}
+
+h1{
+    color: beige;
+    text-align: center;
+    font-weight: 500;
+}
+
+#myfoundrequests{
+    display: flex;
+    background-color: rgb(249, 187, 106);
+    padding: 32px;
+}
+#mylostrequests{
+    display: flex;
+    background-color:rgb(131, 115, 52);
+    padding: 32px;
+}
+
+h2{
+    text-align: center;
+    font-weight: 400;
+    color: rgb(5, 5, 5);
+}

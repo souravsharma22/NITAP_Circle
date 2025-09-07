@@ -370,6 +370,76 @@ app.post("/LostListing", upload.single("image"), async (req, res) => {
     `);
 });
 
+//////////// for the user to get his lost requests and deleting them
+app.get("/api/myRequest/lostitems", async (req, res) => {
+  const userEmail = req.session.userEmail;
+    try {
+        const result = await db.query('SELECT id,name ,description,lost_date ,image  FROM lost_items where email = $1 AND approved= true;',[userEmail]);
+        res.json(result.rows);
+    } catch (err) {
+        console.error(err);
+        res.status(500).send("Error loading Products");
+    }
+});
+
+//deleting product from the selling options my product
+app.post("/api/mylostRequest/delete", async (req, res) => {
+  const userEmail = req.session.userEmail;
+
+  try {
+    const { req_id } = req.body;
+
+    const result = await db.query(
+      "DELETE FROM lost_items WHERE id = $1 and email = $2 RETURNING *",
+      [req_id,userEmail]
+    );
+    //fo findin the error this helps 
+    if (result.rowCount === 0) {
+      return res.status(404).send("Id not matched, try logging again");
+    }
+
+    res.status(200).send("Product deleted successfully");
+  } catch (err) {
+    console.error(err);
+    res.status(500).send("Error deleting product");
+  }
+});
+
+//////////// for the user to get his Found requests and deleting them
+app.get("/api/myRequest/founditems", async (req, res) => {
+  const userEmail = req.session.userEmail;
+    try {
+        const result = await db.query('SELECT id,name ,description,found_date ,image  FROM found_items where email = $1 AND approved= true;',[userEmail]);
+        res.json(result.rows);
+    } catch (err) {
+        console.error(err);
+        res.status(500).send("Error loading Products");
+    }
+});
+
+//deleting product from the selling options my product
+app.post("/api/myfoundRequest/delete", async (req, res) => {
+  const userEmail = req.session.userEmail;
+
+  try {
+    const { req_id } = req.body;
+
+    const result = await db.query(
+      "DELETE FROM found_items WHERE id = $1 and email = $2 RETURNING *",
+      [req_id,userEmail]
+    );
+    //fo findin the error this helps 
+    if (result.rowCount === 0) {
+      return res.status(404).send("Id not matched, try logging again");
+    }
+
+    res.status(200).send("Product deleted successfully");
+  } catch (err) {
+    console.error(err);
+    res.status(500).send("Error deleting product");
+  }
+});
+
 
 //loading found items 
 app.get("/api/found_Items", async (req, res) => {
