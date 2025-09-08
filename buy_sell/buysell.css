@@ -352,3 +352,7 @@
     padding: 32px;
     background-color: #0f172a;
 }
+
+.hide{
+    display: none;
+}

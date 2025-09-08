@@ -6,7 +6,7 @@
 }
 
 /* //My products container */
-#myProduct{
+#products{
     display: flex;
     margin: 0;
     padding: 32px;

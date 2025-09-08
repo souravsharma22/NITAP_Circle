@@ -37,16 +37,16 @@
         <h1>NITAP STORE</h1>
         <p>The things you are looking for might be nearby..</p>
         <form class="search-form">
-            <input list="searchOptions" name="search" placeholder="Search items..." required>
+            <input list="searchOptions" name="search" id="search-input" placeholder="Search items..." data-search required>
             <datalist id="searchOptions">
-                <option value="Stationary">
+                <option value="Stationery">
                 <option value="Technical">
                 <option value="Utility">
                 <option value="Accessories">
                 <option value="Art">
                 <option value="Food">
             </datalist>
-            <button type="submit" class="btn">Search</button>
+            <button type="search" class="btn" id="search-btn">Search</button>
         </form>
     </section>
 
@@ -57,14 +57,13 @@
             <form action="/sellProduct" method="post" enctype="multipart/form-data" id="sellForm">
                 <input type="text" name="itemName" placeholder="Item Name" required>
                 <input type="text" name="desc" placeholder="Description" required>
-                <input type="text" name="email" placeholder="College Mail" required>
                 <input type="text" name="hostel" placeholder="Hostel&Room" required>
                 <input type="text" name="contact" placeholder="Phone No" required pattern="[0-9]{10}" maxlength="10"
                     title="Please enter a valid 10-digit phone number" />
                 <input type="text" name="price" placeholder="Price" required>
 
                 <select id="category" name="category" required>
-                    <option value="staionary">Stationary</option>
+                    <option value="Stationery">Stationery</option>
                     <option value="technical">Technical</option>
                     <option value="utility">Utility</option>
                     <option value="accessories">Accessories</option>

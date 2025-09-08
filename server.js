@@ -248,25 +248,17 @@ app.post("/sellProduct", upload.single("image"), async (req, res) => {
 
     const itemName = req.body.itemName
     const desc = req.body.desc
-    const email = req.body.email
     const hostel = req.body.hostel
     const contact = req.body.contact
     const category = req.body.category
     const price = req.body.price
-    if(email!=userEmail) {
-      res.send(`
-        <script>
-            alert('email not matched with current user\n Or session expired login again');
-            window.location.href = 'buysell.html'; 
-        </script>
-    `);
-    }
+    
     
     const image_name = req.file ? req.file.originalname : null
 
     const image_data = req.file ? fs.readFileSync(req.file.path) : null;
     const result = await db.query('insert into products (product_name , description , contact ,hostel ,category, email, image, price) values ($1, $2,$3,$4,$5,$6,$7,$8) ;',
-        [itemName, desc, contact ,hostel , category,email , image_data,price]
+        [itemName, desc, contact ,hostel , category,userEmail , image_data,price]
     );
     res.send(`
         <script>
@@ -325,6 +317,7 @@ app.post('/api/approve/admin/store', async (req, res)=>{
 //listing found items request
 app.post("/FoundListing", upload.single("image"), async (req, res) => {
     const userEmail = req.session.userEmail;
+
     const itemName = req.body.itemName
     const desc = req.body.desc
     const foundLocation = req.body.foundLocation
@@ -348,6 +341,8 @@ app.post("/FoundListing", upload.single("image"), async (req, res) => {
 //listing lost request
 app.post("/LostListing", upload.single("image"), async (req, res) => {
     const userEmail = req.session.userEmail;
+
+
     const itemName = req.body.itemName
     const desc = req.body.desc
     const lossLocation = req.body.lossLocation

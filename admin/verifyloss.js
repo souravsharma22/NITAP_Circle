@@ -45,11 +45,11 @@ async function loadlostitemsforVarification() {
           <li class="list-group-item"><strong>Category:</strong> ${c.category}</li>
         </ul>
         <div class="card-body">
-          <button type="button" class="btn btn-danger approveitem" data-name="${c.name}" data-email ="${c.email}">
+          <button type="button" class="btn btn-danger approveitem" data-id="${c.id}" data-name="${c.name}" data-email ="${c.email}">
             Approve Request
           </button>
           <p></p>
-          <button type="button" class="btn btn-danger removeitem" data-name="${c.name}" data-email ="${c.email}">
+          <button type="button" class="btn btn-danger removeitem" data-id="${c.id}" data-name="${c.name}" data-email ="${c.email}">
             Remove Request
           </button>
         </div>
@@ -67,6 +67,7 @@ document.getElementById("lost-items").addEventListener("click", async function(e
   if (e.target && e.target.classList.contains("removeitem")) {
     const productName = e.target.dataset.name;
     const userEmail = e.target.dataset.email;
+    const id = e.target.dataset.id;
 
     if (!confirm(`Are you sure you want to remove "${productName}"?`)) return;
 
@@ -76,7 +77,7 @@ document.getElementById("lost-items").addEventListener("click", async function(e
         headers: {
           "Content-Type": "application/json"
         },
-        body: JSON.stringify({ product_name: productName , email: userEmail})
+        body: JSON.stringify({ id: id , email: userEmail})
       });
 
       if (res.ok) {
@@ -96,6 +97,7 @@ document.getElementById("lost-items").addEventListener("click", async function(e
   if (e.target && e.target.classList.contains("approveitem")) {
     const productName = e.target.dataset.name;
     const userEmail = e.target.dataset.email;
+    const id = e.target.dataset.id;
 
 
     if (!confirm(`Do you want to approve "${productName}"?`)) return;
@@ -106,7 +108,7 @@ document.getElementById("lost-items").addEventListener("click", async function(e
         headers: {
           "Content-Type": "application/json"
         },
-        body: JSON.stringify({ product_name: productName, email: userEmail })
+        body: JSON.stringify({ id: id, email: userEmail })
       });
 
       if (res.ok) {

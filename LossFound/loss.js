@@ -28,6 +28,8 @@ function arrayBufferToBase64(buffer) {
   return window.btoa(binary);
 }
 
+let found_req = [];
+
 //loading the items that are listed as found
 async function loadFoundItems() {
     const res = await fetch('/api/found_Items');
@@ -40,7 +42,7 @@ async function loadFoundItems() {
     if (products.length == 0) container.innerHTML = '<h1 style="text-align:center"> No Listed items</h1>';
 
 
-    products.forEach(c => {
+    found_req=products.map(c => {
         const image = c.image ? `data:image/png;base64,${arrayBufferToBase64(c.image.data)}` : null;
         if (image) {
             imgElement = `<img src="${image}" class="card-img-top" alt="Complaint Image">`;
@@ -49,7 +51,7 @@ async function loadFoundItems() {
         }
 
         const cardHTML = `
-  <div class="card m-2 shadow-sm style="min-width:fitContent" flex: 1;">
+  <div class="card m-2 shadow-sm" style="min-width:fitContent; flex: 1;">
       ${imgElement}
       <div class="card-body">
           <h5 class="card-title text-truncate">${c.name}</h5>
@@ -72,10 +74,18 @@ async function loadFoundItems() {
       </div>
   </div>
 `;
-        container.insertAdjacentHTML('beforeend', `<div class="col-sm-6 col-md-4 col-lg-3">${cardHTML}</div>`);
+        const wrapper = document.createElement('div');
+        wrapper.className = "col-sm-6 col-md-4 col-lg-3";
+        wrapper.innerHTML = cardHTML;
+        container.appendChild(wrapper);
+
+        return { name: c.name, category: c.category, element: wrapper };
+
     });
 }
 loadFoundItems();
+
+lost_req =[];
 
  async function loadLostItems() {
     const res = await fetch('/api/lost_Items');
@@ -88,7 +98,7 @@ loadFoundItems();
     if (products.length == 0) container.innerHTML = '<h1 style="text-align:center"> No lost request </h1>';
 
 
-    products.forEach(c => {
+    lost_req = products.map(c => {
         const image = c.image ? `data:image/png;base64,${arrayBufferToBase64(c.image.data)}` : null;
         if (image) {
             imgElement = `<img src="${image}" class="card-img-top" alt="Complaint Image">`;
@@ -97,7 +107,7 @@ loadFoundItems();
         }
 
         const cardHTML = `
-  <div class="card m-2 shadow-sm style="min-width:fitContent" flex: 1;">
+  <div class="card m-2 shadow-sm" style="min-width:fitContent; flex: 1;">
       ${imgElement}
       <div class="card-body">
           <h5 class="card-title text-truncate">${c.name}</h5>
@@ -120,7 +130,12 @@ loadFoundItems();
       </div>
   </div>
 `;
-        container.insertAdjacentHTML('beforeend', `<div class="col-sm-6 col-md-4 col-lg-3">${cardHTML}</div>`);
+        const wrapper = document.createElement('div');
+        wrapper.className = "col-sm-6 col-md-4 col-lg-3";
+        wrapper.innerHTML = cardHTML;
+        container.appendChild(wrapper);
+
+        return { name: c.name, category: c.category, element: wrapper };
     });
 }
 loadLostItems();
@@ -132,4 +147,29 @@ document.getElementById("lost-items").addEventListener('click', function(){
 document.getElementById("found-items").addEventListener('click', function(){
     document.getElementById('lost-items-container').style.display = 'none';
     document.getElementById('found-items-container').style.display = 'flex';
+})
+
+
+const serachbtn = document.getElementById("search-btn");
+serachbtn.addEventListener('click', (e)=>{
+    e.preventDefault();
+    const value = document.getElementById('search-input').value.toLowerCase();
+    // alert(value);
+    let count=0;
+    document.getElementById('found-section').scrollIntoView({behaviour:'smooth'})
+    found_req.forEach(item=>{
+        const is_visible = item.name.toLowerCase().includes(value) || item.category.toLowerCase().includes(value);
+        if(is_visible) count++;
+        item.element.classList.toggle('hide', !is_visible);
+    })
+    lost_req.forEach(item=>{
+        const is_visible = item.name.toLowerCase().includes(value) || item.category.toLowerCase().includes(value);
+        if(is_visible) count++;
+        item.element.classList.toggle('hide', !is_visible);
+    })
+
+    if(count==0){
+        alert("no items found realted to your serach")
+        window.location.reload();
+    }
 })

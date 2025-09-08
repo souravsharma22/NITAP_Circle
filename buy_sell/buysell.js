@@ -18,7 +18,7 @@ function arrayBufferToBase64(buffer) {
   return window.btoa(binary);
 }
 
-
+all_products = [];
 async function loadProducts() {
   const res = await fetch('/api/Products');
   const products = await res.json();
@@ -27,7 +27,7 @@ async function loadProducts() {
   if (products.length == 0) container.innerHTML = '<h1 style="text-align:center"> Nothing for Sale</h1>';
 
 
-  products.forEach(c => {
+  all_products = products.map(c => {
     const image = c.image ? `data:image/png;base64,${arrayBufferToBase64(c.image.data)}` : null;
     if (image) {
       imgElement = `<img src="${image}" class="card-img-top" alt="Complaint Image">`;
@@ -64,8 +64,12 @@ async function loadProducts() {
 `;
 
 
+    const wrapper = document.createElement('div');
+    wrapper.className = "col-sm-6 col-md-4 col-lg-3";
+    wrapper.innerHTML = cardHTML;
+    container.appendChild(wrapper);
 
-    container.insertAdjacentHTML('beforeend', `<div class="col-sm-6 col-md-4 col-lg-3">${cardHTML}</div>`);
+    return { name: c.product_name, category: c.category, element: wrapper };
   });
 }
 loadProducts();
@@ -149,3 +153,21 @@ document.getElementById('my-products').addEventListener('click', function () {
   });
 
 
+////Searching functionality
+const searchbtn = document.getElementById("search-btn");
+searchbtn.addEventListener('click', (e)=>{
+  e.preventDefault();
+  const value = document.getElementById('search-input').value.toLowerCase();
+  document.getElementById('myProduct').scrollIntoView({behavior:'smooth'})
+  let count = 0
+  all_products.forEach(product=>{
+    let is_visible = product.name.toLowerCase().includes(value) || product.category.toLowerCase().includes(value);
+    if(is_visible) count++;
+    product.element.classList.toggle('hide',!is_visible);
+  })
+  if(count==0){
+    alert('no Items match yous description');
+    window.location.reload();
+  }
+
+})
