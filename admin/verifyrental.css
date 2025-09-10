@@ -1,0 +1,27 @@
+@media (max-width: 768px){
+    #productContainer{
+        margin: 0;
+        padding: auto;
+    }
+}
+
+/* //My products container */
+#products{
+    display: flex;
+    margin: 0;
+    padding: 32px;
+    background-color: #0f172a;
+}
+.approveitem{
+    background-color: rgb(47, 255, 50);
+    color: #0f172a;
+
+
+}
+#allproducts{
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(18rem,1fr));
+}
+*{
+    background: black;
+}

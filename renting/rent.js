@@ -1,4 +1,4 @@
-document.getElementById("sell-btn").addEventListener('click', function () {
+document.getElementById("lend-btn").addEventListener('click', function () {
   document.getElementById("form").style.display = 'block';
 })
 
@@ -18,16 +18,16 @@ function arrayBufferToBase64(buffer) {
   return window.btoa(binary);
 }
 
-all_products = [];
-async function loadProducts() {
-  const res = await fetch('/api/Products');
+all_items_for_rent = [];
+async function loadRentalProducts() {
+  const res = await fetch('/api/AllRentalProducts');
   const products = await res.json();
-  // console.log(complaints);
-  const container = document.getElementById('productContainer');
-  if (products.length == 0) container.innerHTML = '<h1 style="text-align:center"> Nothing for Sale</h1>';
+//   console.log(products);
+  const container = document.getElementById('rentproductContainer');
+  if (products.length == 0) container.innerHTML = '<h1 style="text-align:center"> Nothing Available for Renting</h1>';
 
 
-  all_products = products.map(c => {
+  all_items_for_rent = products.map(c => {
     const image = c.image ? `data:image/png;base64,${arrayBufferToBase64(c.image.data)}` : null;
     if (image) {
       imgElement = `<img src="${image}" class="card-img-top" alt="Complaint Image">`;
@@ -46,11 +46,11 @@ async function loadProducts() {
           <p class="card-text small">${c.description}</p>
       </div>
       <ul class="list-group list-group-flush">
-          <li class="list-group-item"><strong>Sold by:</strong> ${c.name}</li>
+          <li class="list-group-item"><strong>Owner:</strong> ${c.username}</li>
           <li class="list-group-item"><strong>Email:</strong> ${c.email}</li>
-          <li class="list-group-item"><strong>Hostel:</strong> ${c.hostel}</li>
+          <li class="list-group-item"><strong>Location:</strong> ${c.hostel}</li>
           <li class="list-group-item"><strong>Category:</strong> ${c.category}</li>
-          <li class="list-group-item"><strong>Price:</strong> ₹${c.price}</li>
+          <li class="list-group-item"><strong>Rate:</strong> ₹${c.price}</li>
       </ul>
       <div class="card-body d-flex flex-column flex-md-row gap-2">
           <a href="tel:+91${c.contact}" class="btn btn-success btn-sm">
@@ -72,22 +72,22 @@ async function loadProducts() {
     return { name: c.product_name, category: c.category, element: wrapper };
   });
 }
-loadProducts();
+loadRentalProducts();
 
 
-async function loadMyProducts() {
-  const res = await fetch('/api/myProducts');
+async function loadMyRentalProducts() {
+  const res = await fetch('/api/rental/myProducts');
   const products = await res.json();
-  // console.log(complaints);
-  const container = document.getElementById('myProduct');
+//   console.log(products);
+  const container = document.getElementById('myRentItems');
   container.innerHTML = "";
-  if (products.length == 0) container.innerHTML = '<h1 style="text-align:center"> You have not listed anything for sale Or login Again</h1>';
+  if (products.length == 0) container.innerHTML = '<h1 style="text-align:center"> You have not listed anythhing for renting</h1>';
   
 
   products.forEach(c => {
     const image = c.image ? `data:image/png;base64,${arrayBufferToBase64(c.image.data)}` : null;
     if (image) {
-      imgElement = `<img src="${image}" class="card-img-top" alt="Complaint Image">`;
+      imgElement = `<img src="${image}" class="card-img-top" alt="product Image">`;
     } else {
       imgElement = `<div class="no-image text-center p-4 bg-light">Not Available</div>`;
     }
@@ -100,7 +100,7 @@ async function loadMyProducts() {
           <p class="card-text small">${c.description}</p>
         </div>
         <ul class="list-group list-group-flush">
-          <li class="list-group-item"><strong>Hostel:</strong> ${c.hostel}</li>
+          <li class="list-group-item"><strong>Contact:</strong> ${c.contact}</li>
           <li class="list-group-item"><strong>Category:</strong> ${c.category}</li>
           <li class="list-group-item"><strong>Price:</strong> ₹${c.price}</li>
         </ul>
@@ -111,24 +111,20 @@ async function loadMyProducts() {
         </div>
       </div>
     `;
-    document.getElementById("myProduct").insertAdjacentHTML("beforeend", cardHTML);
+    document.getElementById("myRentItems").insertAdjacentHTML("beforeend", cardHTML);
   });
 }
 
-//unnessasary data for the 
-// <li class="list-group-item"><strong>Sold by:</strong> ${c.name}</li>
-// <li class="list-group-item"><strong>Email:</strong> ${c.email}</li>
-
 document.getElementById('my-products').addEventListener('click', function () {
-  document.getElementById('productContainer').style.display = 'none';
-  document.getElementById('search-form').style.display = 'none';
-  document.querySelector("#hero > h1").innerHTML = "Products you listed for sale"
-  document.querySelector("#hero > p").innerHTML = "View all the products you putted on sale, remove them if you want"
 
-  loadMyProducts();
+  document.getElementById('rentproductContainer').style.display = 'none';
+  document.querySelector("#hero > h1").innerHTML = "Renting Services by You"
+  document.querySelector("#hero > p").innerHTML = "View all your items on rent, remove them if you want"
+  document.getElementById('search-section').style.display = 'none';
+  loadMyRentalProducts();
 })
 
-  document.getElementById("myProduct").addEventListener("click", async function(e) {
+  document.getElementById("myRentItems").addEventListener("click", async function(e) {
     if (e.target && e.target.classList.contains("removeitem")) {
       const productName = e.target.dataset.name;
       const product_id = e.target.dataset.id;
@@ -136,7 +132,7 @@ document.getElementById('my-products').addEventListener('click', function () {
       if (!confirm(`Are you sure you want to remove "${productName}"?`)) return;
 
       try {
-        const res = await fetch("/api/delete", {
+        const res = await fetch("/api/myrental/delete", {
           method: "POST",
           headers: {
             "Content-Type": "application/json"
@@ -164,9 +160,9 @@ const searchbtn = document.getElementById("search-btn");
 searchbtn.addEventListener('click', (e)=>{
   e.preventDefault();
   const value = document.getElementById('search-input').value.toLowerCase();
-  document.getElementById('myProduct').scrollIntoView({behavior:'smooth'})
+  document.getElementById('rentproductContainer').scrollIntoView({behavior:'smooth'})
   let count = 0
-  all_products.forEach(product=>{
+  all_items_for_rent.forEach(product=>{
     let is_visible = product.name.toLowerCase().includes(value) || product.category.toLowerCase().includes(value);
     if(is_visible) count++;
     product.element.classList.toggle('hide',!is_visible);

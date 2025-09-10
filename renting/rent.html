@@ -4,10 +4,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>🛒NITAP Store</title>
+    <title>RentIt NITAP </title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
-    <link rel="stylesheet" href="buysell.css">
+    <link rel="stylesheet" href="rent.css">
 
 </head>
 
@@ -22,10 +22,10 @@
         </label>
         <nav class="navbar">
 
-            <a href="buysell.html" style="--i:0">Store</a>
-            <a href="#listYourItem" id="sell-btn" style="--i:1">Sell Product</a>
-            <a href="#Products" id="my-products" style="--i:2">My Products</a>
-            <a href="#Orders" style="--i:3">Contact Us</a>
+            <a href="rent.html" style="--i:0">Store</a>
+            <a href="#listYourItem" id="lend-btn" style="--i:1">Put on Rent</a>
+            <a href="#myRentItems" id="my-products" style="--i:2">My Products</a>
+            <a href="#Orders" style="--i:3">Contact</a>
 
 
 
@@ -34,17 +34,15 @@
 
     <!-- Hero Section -->
     <section class="hero" id="hero">
-        <h1>NITAP STORE</h1>
+        <h1>Rental Services</h1>
         <p>The things you are looking for might be nearby..</p>
-        <form class="search-form" id="search-form">
+        <form class="search-form" id="search-section">
             <input list="searchOptions" name="search" id="search-input" placeholder="Search items..." data-search required>
             <datalist id="searchOptions">
                 <option value="Stationery">
                 <option value="Technical">
                 <option value="Utility">
                 <option value="Accessories">
-                <option value="Art">
-                <option value="Food">
             </datalist>
             <button type="search" class="btn" id="search-btn">Search</button>
         </form>
@@ -53,28 +51,27 @@
     <!-- List Your Item Form -->
     <section id="form" class="form-section">
         <div id="listYourItem">
-            <h2>List your item for selling</h2>
-            <form action="/sellProduct" method="post" enctype="multipart/form-data" id="sellForm">
+            <h2>List your item for RENT</h2>
+            <form action="/lendProduct" method="post" enctype="multipart/form-data" id="sellForm">
                 <input type="text" name="itemName" placeholder="Item Name" required>
                 <input type="text" name="desc" placeholder="Description" required>
                 <input type="text" name="hostel" placeholder="Hostel&Room" required>
                 <input type="text" name="contact" placeholder="Phone No" required pattern="[0-9]{10}" maxlength="10"
                     title="Please enter a valid 10-digit phone number" />
-                <input type="text" name="price" placeholder="Price" required>
+                <input type="text" name="price" placeholder="Price: /h or /day" required>
 
                 <select id="category" name="category" required>
                     <option value="Stationery">Stationery</option>
                     <option value="technical">Technical</option>
                     <option value="utility">Utility</option>
                     <option value="accessories">Accessories</option>
-                    <option value="art">Art</option>
-                    <option value="food">Food</option>
+                    <option value="vehicle">Vehicle</option>
                 </select>
 
                 <input type="file" name="image" accept="image/*">
 
                 <div class="form-buttons">
-                    <button type="submit" class="btn">Put for Sale</button>
+                    <button type="submit" class="btn">Add on Rent</button>
                     <button type="button" id="closeButton" class="btn close">Close Application</button>
                 </div>
             </form>
@@ -82,16 +79,16 @@
     </section>
 
     <section id="Products">
-        <div class="row"  id="myProduct">
+        <div class="row"  id="myRentItems">
 
         </div>
     </section>
 
     <section id="product-section">
-        <div class="row" id="productContainer"></div>
+        <div class="row" id="rentproductContainer"></div>
     </section>
 
-    <script src="buysell.js"></script>
+    <script src="rent.js"></script>
 </body>
 
 </html>

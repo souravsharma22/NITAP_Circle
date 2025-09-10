@@ -37,6 +37,7 @@ app.use(express.static(path.join(__dirname, "academic")));
 app.use(express.static(path.join(__dirname, "admin")));
 app.use(express.static(path.join(__dirname, "buy_sell")));
 app.use(express.static(path.join(__dirname, "LossFound")));
+app.use(express.static(path.join(__dirname, "renting")));
 
 const db = new Pool({
     connectionString: process.env.DATABASE_URL,
@@ -75,6 +76,19 @@ const transporter = nodemailer.createTransport({
   connectionTimeout:10000
 });
 
+
+// auto deleting the old lost and found requests posted
+async function cleanOldRequest() {
+  try{
+    await db.query("delete from  lost_items where lost_date< Now() - INTERVAL '30 days'")
+    await db.query("delete from  found_items where found_date< Now() - INTERVAL '30 days'")
+
+  }catch(err){
+    console.error("Err deleting",err);
+  }
+  
+}
+cleanOldRequest();
 app.get("/", (req, res)=>{
     res.sendFile(__dirname +'/index.html')
 })
@@ -200,7 +214,7 @@ app.post("/adminLogin", async (req, res) => {
 
 app.get("/api/Products", async (req, res) => {
     try {
-        const result = await db.query('SELECT u.name,p.product_name, p.description, p.contact, p.hostel, p.category, p.email, p.image, p.price  FROM products p join users u on p.email = u.email  where approved= true');
+        const result = await db.query('SELECT u.name,product_id,p.product_name, p.description, p.contact, p.hostel, p.category, p.email, p.image, p.price  FROM products p join users u on p.email = u.email  where approved= true');
         res.json(result.rows);
     } catch (err) {
         console.error(err);
@@ -230,10 +244,6 @@ app.post("/api/delete", async (req, res) => {
       "DELETE FROM products WHERE product_id = $1 and email = $2 RETURNING *",
       [product_id,userEmail]
     );
-
-    if (result.rowCount === 0) {
-      return res.status(404).send("Id not matched, try logging again");
-    }
 
     res.status(200).send("Product deleted successfully");
   } catch (err) {
@@ -311,6 +321,23 @@ app.post('/api/approve/admin/store', async (req, res)=>{
     res.status(500).send("Error approving product");
   }
 })
+
+// // deleting the products that are listed for sale from the admin side
+app.post("/api/admin/products/delete", async (req, res) => {
+  try {
+    const { product_id } = req.body;
+    console.log(product_id)
+    const result = await db.query(
+      "DELETE FROM products WHERE product_id = $1 RETURNING *",
+      [product_id]
+    );
+    res.status(200).send("Product deleted successfully");
+  } catch (err) {
+    console.error(err);
+    res.status(500).send("Error deleting product");
+  }
+});
+
 
 //lost and found server----
 
@@ -546,8 +573,132 @@ app.post('/api/delete/admin/foundRequest', async (req, res)=>{
 
 
 
+//////////// RENTAL SERVICES ////////////////////--------------------
 
+app.post('/lendProduct',upload.single("image"), async (req,res)=>{
+    const userEmail = req.session.userEmail;
+    const itemName = req.body.itemName;
+    const description = req.body.desc;
+    const location = req.body.hostel;
+    const contact = req.body.contact;
+    const price = req.body.price;
+    const category = req.body.category;
 
+    const image = req.file?fs.readFileSync(req.file.path):null;
+
+   try{
+     const result = await db.query(' insert into rental_items (product_name , description, contact , hostel,category , email,image,price) values ($1,$2,$3,$4,$5,$6,$7,$8)',
+      [itemName,description,contact,location , category,userEmail,image,price]
+    );
+
+    res.send(`
+        <script>
+            alert('Your product will be added to the rental store');
+            window.location.href = 'rent.html'; 
+        </script>
+    `);
+
+   }catch(err){
+    console.log("error adding values", err);
+   }
+
+})
+
+app.get('/api/AllRentalProducts', async (req, res)=>{
+
+  try{
+    const result = await db.query(' select u.name as username, r.product_id ,r.product_name, r.description, r.contact, r.hostel, r.category, r.email, r.image, r.price from rental_items r join users u on r.email = u.email where approved= true');
+    res.json(result.rows);
+  }
+  catch(err){
+    console.log("some error occured loading rental items", err);
+  }
+})
+
+//users rental items
+app.get("/api/rental/myProducts", async (req, res) => {
+  const userEmail = req.session.userEmail;
+    try {
+        const result = await db.query('SELECT product_id ,product_name, description, contact, category,image, price  FROM rental_items  where email = $1 AND approved= $2;',[userEmail,true]);
+        res.json(result.rows);
+    } catch (err) {
+        console.error(err);
+        res.status(500).send("Error loading Products");
+    }
+});
+//enabling delete option for perdonal rental items
+app.post("/api/myrental/delete", async (req, res) => {
+  const userEmail = req.session.userEmail;
+
+  try {
+    const { product_id } = req.body;
+
+    const result = await db.query(
+      "DELETE FROM rental_items WHERE product_id = $1 and email = $2 RETURNING *",
+      [product_id,userEmail]
+    );
+
+    res.status(200).send("Product deleted successfully");
+  } catch (err) {
+    console.error(err);
+    res.status(500).send("Error deleting product");
+  }
+});
+
+///AdMIN SIDE FOR RENTAL SERVICES //////////////////////////
+
+//getting all the new requests for renting
+app.get('/api/Products/rental/varifyList', async (req, res)=>{
+  try {
+        const result = await db.query('SELECT u.name,p.product_id,p.product_name, p.description, p.contact, p.hostel, p.category, p.email, p.image, p.price  FROM rental_items p join users u on p.email = u.email  where approved= false');
+        res.json(result.rows);
+    } catch (err) {
+        console.error(err);
+        res.status(500).send("Error loading Products");
+    }
+})
+//deleting renting requests
+app.post('/api/delete/admin/rental', async (req, res)=>{
+  try {
+    const { product_id,email } = req.body;
+
+    const result = await db.query(
+      "DELETE FROM rental_items WHERE product_id = $1 and email = $2 RETURNING *",
+      [product_id,email]
+    );
+    res.status(200).send("Product deleted successfully");
+  } catch (err) {
+    console.error(err);
+    res.status(500).send("Error deleting product");
+  }
+})
+
+//approving the product by admin
+app.post('/api/approve/admin/rental', async (req, res)=>{
+    try {
+    const { product_id,email } = req.body;
+
+    const result = await db.query(
+      "update rental_items set approved = $1 where product_id = $2 and email = $3 ",
+      [true,product_id,email]
+    );
+    res.status(200).send("Product Approved for sale successfully");
+  } catch (err) {
+    console.error(err);
+    res.status(500).send("Error approving product");
+  }
+})
+///deleting the rental list from the admin side
+app.post('/api/admin/rental/products/delete', async(req, res)=>{
+  const { product_id}  = req.body;
+  try{
+    const result = await db.query("delete from rental_items where product_id = $1",[product_id])
+    res.status(200).send("Product deleted successfully")
+  }catch(err){
+    console.log(err)
+    res.status(500).send("Error deleting product");
+  }
+})
 
 app.listen(port, () => {
     console.log("lidtning on port number ", port);
