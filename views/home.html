@@ -26,9 +26,10 @@
       <a href="#home" style="--i:0">Home</a>
       <a href="#about" style="--i:1">About Us</a>
       <a href="#services" style="--i:2">Events</a>
-      <a href="#contact" style="--i:3">Contact us</a>
-
-
+      <a href="#contact" style="--i:3"><form action="/logout" method="post">
+        <button type="submit" style="font-weight: 500; background: none;">Log out</button></form></a>
+      <a href="/admin" style="--i:4">GoAdmin</a>
+       
     </nav>
   </header>
   <section class="home" id="home">
@@ -38,7 +39,9 @@
     </div>
 
     <div class="contents">
-      <div class="content" onclick="window.location.href='academic.html'">
+
+      <a href="/academic" style="color:black; text-decoration: none;">
+        <div class="content">
         <span>
           <img src="./homeImages/icons8-school-100.png" alt="">
         </span>
@@ -47,19 +50,23 @@
           <p>Find all the details about your academic, get latest sylabus, PYQs and Notes from your seniors</p>
         </div>
       </div>
+      </a>
 
-      <div class="content" onclick="window.location.href='loss.html'">
-        <span>
-          <img src="./homeImages/lost-and-found.png" alt="">
-        </span>
-        <div class="content-desc">
-          <h3>Lost & Found</h3>
-          <p>Find anything? Or lost anything? put a request here and help yourself</p>
+
+      <a href="/LostandFound" style="color:black; text-decoration: none;">
+        <div class="content" onclick="window.location.href='loss.html'">
+          <span>
+            <img src="./homeImages/lost-and-found.png" alt="">
+          </span>
+          <div class="content-desc">
+            <h3>Lost & Found</h3>
+            <p>Find anything? Or lost anything? put a request here and help yourself and others find their belongings</p>
+          </div>
         </div>
-      </div>
+      </a>
 
-
-      <div class="content" onclick="window.location.href='buysell.html'">
+      <a href="/NitapStore" style="color:black; text-decoration: none;">
+        <div class="content" >
         <span>
           <img src="./homeImages/buy.png" alt="">
         </span>
@@ -68,8 +75,10 @@
           <p>Store where you can buy anything that is being sold by othes, Or sell by yourself</p>
         </div>
       </div>
+      </a>
 
-      <div class="content" onclick="window.location.href='rent.html'">
+      <a href="/RentalServices" style="color:black; text-decoration: none;">
+        <div class="content">
         <span>
           <img src="./homeImages/rent.png" alt="">
         </span>
@@ -78,6 +87,10 @@
           <p>Need Something for some time? take a look you may find it here.</p>
         </div>
       </div>
+      </a>
+      
+
+      
 
     </div>
 

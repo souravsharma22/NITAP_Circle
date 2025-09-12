@@ -86,7 +86,7 @@ async function loadMyRequestFoundItems() {
   // console.log(complaints);
   const container = document.getElementById('myfoundrequests');
   container.innerHTML = "";
-  if (products.length == 0) container.innerHTML = '<h1 style="text-align:center">You have not putted any lost request</h1>';
+  if (products.length == 0) container.innerHTML = '<h1 style="text-align:center">You have not putted any found request</h1>';
   
 
   products.forEach(c => {
