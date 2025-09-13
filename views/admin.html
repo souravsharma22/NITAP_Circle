@@ -11,8 +11,15 @@
     <title>Admin Page</title>
 </head>
 <body>
-    <div class="contents">
-      <div class="content" onclick="window.location.href='verifyloss.html'">
+    <a href="/home" style="color:black; text-decoration: none;">
+      <button class="btn btn-danger" style="margin: 25px;">Go User</button>
+    </a>
+
+    
+    <div class="contents" >
+
+
+      <div class="content" onclick="window.location.href='/admin/lostandfound'">
         <span>
           <img src="./homeImages/lost-and-found.png" alt="">
         </span>
@@ -21,9 +28,9 @@
           <p>Find all the details about your academic, get latest sylabus, PYQs and Notes from your seniors</p>
         </div>
       </div>
+      
 
-
-      <div class="content" onclick="window.location.href='verifystore.html'">
+      <div class="content" onclick="window.location.href='/admin/nitapstore/requests'">
         <span>
           <img src="./homeImages/buy.png" alt="">
         </span>
@@ -32,7 +39,8 @@
           <p>Find all the details about your academic, get latest sylabus, PYQs and Notes from your seniors</p>
         </div>
       </div>
-      <div class="content" onclick="window.location.href='products.html'">
+
+      <div class="content" onclick="window.location.href='/admin/nitapstore/allProducts'">
         <span>
           <img src="./homeImages/buy.png" alt="">
         </span>
@@ -43,7 +51,7 @@
       </div>
 
       <!-- //renting -->
-       <div class="content" onclick="window.location.href='verifyrental.html'">
+       <div class="content" onclick="window.location.href='/admin/Rental/verification'">
         <span>
           <img src="./homeImages/rent.png" alt="">
         </span>

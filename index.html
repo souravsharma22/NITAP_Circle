@@ -25,7 +25,7 @@
                 <input type="password" name="password"  placeholder="Password" required>
                 <button type="submit">Login</button>
                 <p>Do not have an account? <a href="#" onclick="showForm('register-form')">Register</a></p>
-                <p>Forget Password? <a href="mailto:souravbgp2210@gmail.com">help</a></p>
+                <p>Forget Password? <a href="#" onclick="showForm('forget-password-form')">Set a new one</a></p>
             </form>
 
         </div>
@@ -56,6 +56,35 @@
             </form>
             <p>Already have an account? <a href="#" onclick="showForm('login-form')">Login</a></p>
         </div>
+
+        <!-- creating form for the user password forget -->
+         <div class="form-box" id="forget-password-form">
+            <h2>Change Password</h2>
+            <form id="forgetemailForm">
+                <input type="email" name="Email" id="forget-email" placeholder="College Email" pattern="^[a-zA-Z0-9._%+-]+@nitap\.ac\.in$"
+                    title="Please enter a valid NITAP email (e.g., user@nitap.ac.in)" required>
+
+                <button type="submit">Send Email</button>
+            </form>
+            <form id="forget-otpverify">
+                <input type="text" id="forget-otp-in" placeholder="Enter otp sent">
+                <button id="forget-otp-btn">Verify</button>
+            </form>
+            <p id="forget-status">Sending otp..(ensure good internet)</p>
+            <form id="password-reset">
+                                
+                <input type="password" name="password" id="new-password" placeholder="Enter new Password" required
+                    pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$"
+                    title="Password must be at least 8 characters long, include uppercase, lowercase, a number, and a special character.">
+                <input type="password" name="password" id="confirm-new-password" placeholder="Confirm Password" required
+                    pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$"
+                    title="Password must be at least 8 characters long, include uppercase, lowercase, a number, and a special character.">
+                <button type="submit" name="register"> Change Password
+                </button>
+            </form>
+            <p>Already have an account? <a href="#" onclick="showForm('login-form')">Login</a></p>
+        </div>
+
     </div>
     <script src="/script.js"></script>
 </body>

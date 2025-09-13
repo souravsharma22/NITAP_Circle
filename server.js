@@ -131,6 +131,12 @@ app.get("/LostandFound", (req, res) => {
 	else
 		res.redirect("/")
 })
+app.get("/LostandFound/myRequests", (req, res) => {
+	if(req.isAuthenticated())
+		res.sendFile(__dirname + "/views" + "/personalReq.html")
+	else
+		res.redirect("/")
+})
 
 app.get("/RentalServices", (req, res) => {
 	if(req.isAuthenticated())
@@ -200,7 +206,7 @@ app.post("/send-email", async (req, res) => {
 		res.json({ message: "✅ Email sent successfully!" });
 	} catch (err) {
 		console.error(err);
-		res.status(500).json({ message: "❌ Failed to send email. check email" });
+		res.status(500).json({ error: "❌ Failed to send email. check email" });
 	}
 });
 
@@ -235,8 +241,33 @@ app.post("/register", async (req, res) => {
 	}
 });
 
+///------------changing password------------///////
+app.post("/changePassword", async (req, res) => {
+	const { Email, password } = req.body;
+	try {
+		const result = await db.query("select * from users where email= $1", [Email]);
+		if (result.rows.length === 0) {
+			return res.status(404).json({error:"No user found"});
+		} else {
+			
+				let new_hashed_Password = await bcrypt.hash(password, 10);
+				const changePassword = await db.query("update users set password=$1 where email=$2",[new_hashed_Password,Email]);
+
+				if(changePassword.rowCount===0) {
+					res.sendStatus(400);
+				}
+				res.sendStatus(200);
+
+			
+		}
+
+	} catch (err) {
+		res.sendStatus(500);
+	}
+})
 
 
+//////////-------------------log in-----------//////////////
 app.post("/login", passport.authenticate('local',{
 		successRedirect: "/home",
 		failureRedirect :"/",
@@ -261,7 +292,7 @@ passport.use( new Strategy( { usernameField: 'email' }, async function verify(em
 						return cb(null, false);
 						
 					} 
-					console.log(user)
+					// console.log(user)
 					return cb(null, user)
 		}
 		
@@ -334,7 +365,7 @@ app.post("/sellProduct", upload.single("image"), async (req, res) => {
 	res.send(`
         <script>
             alert('item will be added to store');
-            window.location.href = 'buysell.html'; 
+            window.location.href = '/NitapStore'; 
         </script>
     `);
 });
@@ -421,7 +452,7 @@ app.post("/FoundListing", upload.single("image"), async (req, res) => {
 	res.send(`
         <script>
             alert('item will be added to found items list');
-            window.location.href = 'loss.html'; 
+            window.location.href = '/LostandFound'; 
         </script>
     `);
 });
@@ -448,7 +479,7 @@ app.post("/LostListing", upload.single("image"), async (req, res) => {
 	res.send(`
         <script>
             alert('Request will be added to loss items request list');
-            window.location.href = 'loss.html'; 
+            window.location.href = '/LostandFound'; 
         </script>
     `);
 });
@@ -655,7 +686,7 @@ app.post('/lendProduct', upload.single("image"), async (req, res) => {
 		res.send(`
         <script>
             alert('Your product will be added to the rental store');
-            window.location.href = 'rent.html'; 
+            window.location.href = '/RentalServices'; 
         </script>
     `);
 

@@ -95,7 +95,7 @@
 
 
 /* // resposive navbar */
-@media (max-width: 700px) {
+@media (max-width: 900px) {
   .navbar {
     display: block;
     position: absolute;

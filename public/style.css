@@ -102,3 +102,13 @@ p a:hover {
 #registration-verify{
     display: none;
 }
+
+#password-reset{
+    display: none;
+}
+#forget-status{
+    display: none;
+}
+#forget-otpverify{
+    display: none;
+}
