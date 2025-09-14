@@ -79,19 +79,32 @@ app.use(passport.session());
 // 	},
 // 	connectionTimeout: 10000
 // });
+//----------------------/Gmail smtp
+// const transporter = nodemailer.createTransport({
+//   host: "smtp.gmail.com",
+//   port: 587,
+//   secure: false,        // TLS
+//   requireTLS: true,     // force TLS
+//   auth: {
+//     user: process.env.GMAIL_USER,
+//     pass: process.env.GMAIL_PASS,
+//   },
+//   connectionTimeout: 10000,
+//   logger: true,
+//   debug: true,
+// });
+
+///---------using SendGrid for email verification and sending otp----------//////////
+
 const transporter = nodemailer.createTransport({
-  host: "smtp.gmail.com",
-  port: 587,
-  secure: false,        // TLS
-  requireTLS: true,     // force TLS
-  auth: {
-    user: process.env.GMAIL_USER,
-    pass: process.env.GMAIL_PASS,
-  },
-  connectionTimeout: 10000,
-  logger: true,
-  debug: true,
-});
+	host: "smtp.sendgrid.net",
+	port: 587,
+	secure: false,
+	auth:{
+		user: 'apikey',
+		pass: process.env.SENDGRID_API_KEY
+	}
+})
 
 
 // auto deleting the old lost and found requests posted
@@ -217,7 +230,7 @@ app.post("/send-email", async (req, res) => {
 		res.json({ message: "✅ Email sent successfully!" });
 	} catch (err) {
 		console.error(err);
-		res.status(500).json({ error: "❌ Failed to send email. check email" });
+		res.status(400).json({ error: "❌ Failed to send email. check email" });
 	}
 });
 
