@@ -7,7 +7,7 @@
   <title>Home</title>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css" rel="stylesheet"
     integrity="sha384-LN+7fdVzj6u52u30Kp6M/trliBMCMKTyK833zpbD+pXdCLuTusPj697FH4R/5mcr" crossorigin="anonymous">
-  <link rel="stylesheet" href="home2.css">
+  <link rel="stylesheet" href="/home2.css">
 </head>
 
 <body>
@@ -24,12 +24,15 @@
 
 
       <a href="#home" style="--i:0">Home</a>
-      <a href="#about" style="--i:1">About Us</a>
+      <a href="#aboutUs" style="--i:1">About Us</a>
       <a href="#services" style="--i:2">Events</a>
-      <a href="#logginOut" style="--i:3"><form action="/logout" method="post">
-        <button type="submit" style="font-weight: 500; background: none;">Log out</button></form></a>
+      <a href="#logginOut" style="--i:3">
+        <form action="/logout" method="post">
+          <button type="submit" style="font-weight: 500; background: none;">Log out</button>
+        </form>
+      </a>
       <a href="/admin" style="--i:4">GoAdmin</a>
-       
+
     </nav>
   </header>
   <section class="home" id="home">
@@ -40,7 +43,7 @@
 
     <div class="contents">
 
-        <div class="content"  onclick="window.location.href='/academic'">
+      <div class="content" onclick="window.location.href='/academic'">
         <span>
           <img src="./homeImages/icons8-school-100.png" alt="">
         </span>
@@ -51,17 +54,17 @@
       </div>
 
 
-        <div class="content" onclick="window.location.href='/LostandFound'">
-          <span>
-            <img src="./homeImages/lost-and-found.png" alt="">
-          </span>
-          <div class="content-desc">
-            <h3>Lost & Found</h3>
-            <p>Find anything? Or lost anything? put a request here and help yourself and others find their belongings</p>
-          </div>
+      <div class="content" onclick="window.location.href='/LostandFound'">
+        <span>
+          <img src="./homeImages/lost-and-found.png" alt="">
+        </span>
+        <div class="content-desc">
+          <h3>Lost & Found</h3>
+          <p>Find anything? Or lost anything? put a request here and help yourself and others find their belongings</p>
         </div>
+      </div>
 
-        <div class="content"  onclick="window.location.href='/NitapStore'">
+      <div class="content" onclick="window.location.href='/NitapStore'">
         <span>
           <img src="./homeImages/buy.png" alt="">
         </span>
@@ -71,7 +74,7 @@
         </div>
       </div>
 
-        <div class="content"  onclick="window.location.href='/RentalServices'">
+      <div class="content" onclick="window.location.href='/RentalServices'">
         <span>
           <img src="./homeImages/rent.png" alt="">
         </span>
@@ -80,9 +83,9 @@
           <p>Need Something for some time? take a look you may find it here.</p>
         </div>
       </div>
-      
 
-      
+
+
 
     </div>
 
@@ -92,80 +95,132 @@
 
 
   </section>
-
-  <section id="Notices">
-    <div id="head-1">
-      <h1>NOTICES & CALANDER</h1>
-    </div>
-    <div class="notice" style="text-align: center;">
-      <h3 style="text-align: center;">Bus Timings</h3>
-      <table class="table" border="1" cellpadding="8" cellspacing="0">
-        <thead>
-          <tr>
-            <th>Time</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td>8:50 AM</td>
-          </tr>
-          <tr>
-            <td>9:00 AM</td>
-          </tr>
-          <tr>
-            <td>9:50 AM</td>
-          </tr>
-          <tr>
-            <td>10:00 AM</td>
-          </tr>
-          <tr>
-            <td>12:50 AM</td>
-          </tr>
-          <tr>
-            <td>1:00 PM</td>
-          </tr>
-          <tr>
-            <td>1:50 PM</td>
-          </tr>
-          <tr>
-            <td>2:00 PM</td>
-          </tr>
-          <tr>
-            <td>5:00 PM</td>
-          </tr>
-          <tr>
-            <td>6:00 PM</td>
-          </tr>
-        </tbody>
-      </table>
-
-    </div>
-    <div class="notice">
-      <h3 style="text-align: center;">Public Holidays This Month</h3>
-      <table class="table">
-        <thead>
-          <tr>
-            <th scope="col">#</th>
-            <th scope="col">date</th>
-            <th scope="col">Ocassion</th>
-          </tr>
-        </thead>
-        <tbody id="holidays-body">
-        </tbody>
-      </table>
-    </div>
-    <div class="notices">
-      <div class="callender">
-        <h1>Academic callender</h1>
-        <p>Download to click the academic calender of current year</p>
-        <div class="callenders">
-          This is our academic calander for july-dec 2025, download here
-        </div>
-        <a href="NITAP_Academic_Calandar_2025.pdf" class="btn" download> <i class="fa-solid fa-download"></i>
-          Download</a>
+  <div id="head-1">
+    <h1>NOTICES & CALANDER</h1>
+  </div>
+  <section id="">
+    <div id="Notices">
+      <div class="notice">
+        <h3>Bus Timings</h3>
+        <table>
+          <thead>
+            <tr>
+              <th>Time</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>8:50 AM</td>
+            </tr>
+            <tr>
+              <td>9:00 AM</td>
+            </tr>
+            <tr>
+              <td>9:50 AM</td>
+            </tr>
+            <tr>
+              <td>10:00 AM</td>
+            </tr>
+            <tr>
+              <td>12:50 PM</td>
+            </tr>
+            <tr>
+              <td>1:00 PM</td>
+            </tr>
+            <tr>
+              <td>1:50 PM</td>
+            </tr>
+            <tr>
+              <td>2:00 PM</td>
+            </tr>
+            <tr>
+              <td>5:00 PM</td>
+            </tr>
+            <tr>
+              <td>6:00 PM</td>
+            </tr>
+          </tbody>
+        </table>
       </div>
+      <div class="notice">
+        <div class="callender">
+          <h1>Academic callender</h1>
+          <div class="callenders">
+            This is our academic calander for july-dec 2025, download here
+          </div>
+          <a href="NITAP_Academic_Calandar_2025.pdf" class="btn" download> <i class="fa-solid fa-download"></i>
+            Download</a>
+        </div>
+        <div class="callender">
+          <h1 style="color: brown;">Taxi Service</h1>
+          <div class="callenders">
+            Book Taxi Services from college to itanagar, airport or satation.
+          </div>
+          <a href="tel:+91" class="btn" style="background: rgb(25, 237, 237);"> Book Now</a>
+        </div>
+      </div>
+
+      <!-- //emergency contacts -->
+      <div class="notice">
+        <h3>Emergency Contacts</h3>
+        <table id="emergency-table" class="emergency-table">
+          <thead>
+            <tr>
+              <th id="col-name">Name</th>
+              <th id="col-phone">Phone</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td data-label="Name" id="admin1-name">Ambulance</td>
+              <td data-label="Phone" id="admin1-phone">
+                <a href="tel:+919402424756">9402424756</a>
+                <a href="tel:+918416045885">8416045885</a>
+              </td>
+            </tr>
+            <tr>
+              <td data-label="Name" id="admin2-name">Nurse</td>
+              <td data-label="Phone" id="admin2-phone">
+                <a href="tel:+917628989883">7628989883 </a>
+                <a href="tel:+916909910122">6909910122 </a>
+              </td>
+            </tr>
+            <tr>
+              <td data-label="Name" id="admin3-name">Transportation</td>
+              <td data-label="Phone" id="admin3-phone">
+                <a href="tel:+919487810479">+91 9487810479</a>
+              </td>
+            </tr>
+            <tr>
+              <td data-label="Name" id="admin3-name">HMC Office</td>
+              <td data-label="Phone" id="admin3-phone">
+                <a href="tel:+919436685537">+91 9436685537</a>
+              </td>
+            </tr>
+            
+            <tr>
+              <td data-label="Name" id="admin3-name">Security I/C</td>
+              <td data-label="Phone" id="admin3-phone">
+                <a href="tel:+919402855977">+91 9402855977</a>
+              </td>
+            </tr>
+
+            <tr>
+              <td data-label="Name" id="admin3-name">Cleaning S/V</td>
+              <td data-label="Phone" id="admin3-phone">
+                <a href="tel:+919233494428">+91 9233494428</a>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+
+
     </div>
   </section>
+
+
   <section id="services">
     <div class="heading">
       <h1><span>College Events</span></h1>
@@ -174,7 +229,7 @@
 
     <div class="projects-grid">
 
-      <a  class="project-card"
+      <a class="project-card"
         style="background-image: url('./logo/WhatsApp\ Image\ 2025-08-31\ at\ 15.57.56_413f08d7.jpg');">
         <div class="card-overlay">
           <div class="card-text">
@@ -185,7 +240,7 @@
         </div>
       </a>
 
-      <a  class="project-card" style="background-image: url('./logo/ganesh\ puja.jpg');">
+      <a class="project-card" style="background-image: url('./logo/ganesh\ puja.jpg');">
         <div class="card-overlay">
           <div class="card-text">
             <h2 class="project-title">Ganesh Puja at our college</h2>
@@ -195,7 +250,7 @@
         </div>
       </a>
 
-      <a  class="project-card" style="background-image: url('./logo/download.jpeg');">
+      <a class="project-card" style="background-image: url('./logo/download.jpeg');">
         <div class="card-overlay">
           <div class="card-text">
             <h2 class="project-title">Induction Program</h2>
@@ -208,41 +263,56 @@
     </div>
   </section>
 
-  <section id="about">
-    <div class="heading">
-      <h1><span>About us</span></h1>
-      <h2>Know about the developers</h2>
+
+  <!-- //footer -->
+
+  <footer id="aboutUs">
+    <div class="footer-container">
+      <div class="footer-about">
+        <h3><a href="https://www.nitap.ac.in/" target="_blank" style="text-decoration: none; color:white">NIT Arunachal
+            Pradesh</a></h3>
+        <p> Jote, District: Papum Pare,
+          Arunachal Pradesh, India - 791113</p>
+      </div>
+
+      <div class="footer-links">
+        <h4>Help & Support</h4>
+        <ul>
+          <li><a target="_blank" href="mailto:cseweb@nitap.ac.in">Join Us</a></li>
+          <li><a target="_blank" href="mailto:cseweb@nitap.ac.in">Become Admin</a></li>
+          <li><a target="_blank" href="https://github.com/souravsharma22/NITAP_Circle/issues">Report Bug</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-links">
+        <h4>Quick Links</h4>
+        <ul>
+          <li><a target="_blank" href="/home">Home</a></li>
+          <li><a target="_blank" href="https://nitap.ac.in/section/home?section=2621688fb2">T&P Cell</a></li>
+          <li><a target="_blank" href="https://nitap.ac.in/section/home?section=5f27d55abd">StratUp Cell</a></li>
+          <li><a target="_blank" href="https://www.nitap.ac.in/quick/CodingClub/home/">Coding Club</a></li>
+        </ul>
+      </div>
+      <div class="footer-links">
+        <h4>Contact Us</h4>
+        <ul>
+          <li><a href="mailto:cseweb@nitap.ac.in" style="text-decoration: none; color:white">Email Us</a></li>
+          <li><a href="tel:+919876543210"> +91 6204 882 887</a></li>
+          <li><a target="_blank" href="https://www.linkedin.com/in/sourav-sharma-12b589297/">Linked In</a></li>
+        </ul>
+      </div>
+
     </div>
 
-    <div class="about">
-      <div class="card">
-        <img src="./homeImages/profile-img.png" alt="" class="profile-img">
-        <h3>Soumajit Bhattacharjee</h3>
-        <p>Full Stack Web Developer</p>
-        <p>Final year Electrical Enginnering Student at NIT Arunachal Pradesh.</p>
-      </div>
-
-      <div class="card">
-        <img src="./homeImages/sourav_image.jpeg" alt="" class="profile-img">
-        <h3>Sourav Sharma</h3>
-        <p>Full Stack Web Developer</p>
-        <p>A full stack web developer with deep knowledge of backend. An AIML enthusiast incopratinf ML to solve
-          real-life problems</p>
-      </div>
-
-      <div class="card">
-        <img src="./homeImages/Md_Aftab_image.png" alt="Md Aftab Profile" class="profile-img">
-        <h3>Md Aftab</h3>
-        <p>Full Stack Web Developer</p>
-        <p>Student of NITAP, 2026 batch a developer and cp expert</p>
-      </div>
+    <div class="footer-bottom">
+      <p>&copy; 2025 NIT Arunachal Pradesh. All Rights Reserved.</p>
     </div>
+  </footer>
+
+  
 
 
-
-
-
-
+  <!-- //end of footer -->
 </body>
 
 </html>

@@ -105,10 +105,8 @@ function validateNitapEmail(email) {
 
 //==========>>>------routes for rendering pages-----<<<============================
 app.get("/home", (req, res) => {
-	if(req.isAuthenticated())
 		res.sendFile(__dirname + "/views" + "/home.html");
-	else
-		res.redirect("/")
+	
 })
 
 app.get("/academic", (req, res) => {
@@ -804,10 +802,15 @@ passport.deserializeUser((user,cb)=>{
 
 ////////////////////------------------LOG OUT ------------------------////////////////
 app.post("/logout", (req,res)=>{
+	if(req.isAuthenticated()){
 	req.logout((err)=>{
 		if(err) console.log(err);
 		res.redirect("/");
 	})
+}
+else{
+	res.redirect("/")
+}
 })
 
 
