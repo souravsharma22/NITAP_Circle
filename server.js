@@ -103,7 +103,9 @@ const transporter = nodemailer.createTransport({
 	auth:{
 		user: 'apikey',
 		pass: process.env.SENDGRID_API_KEY
-	}
+	},
+	logger: true,
+   debug: true,
 })
 
 
