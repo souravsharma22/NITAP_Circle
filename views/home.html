@@ -26,12 +26,12 @@
       <a href="#home" style="--i:0">Home</a>
       <a href="#aboutUs" style="--i:1">About Us</a>
       <a href="#services" style="--i:2">Events</a>
-      <a href="#logginOut" style="--i:3">
+      <a href="#logginOut" style="--i:3" id="logout-btn">
         <form action="/logout" method="post">
-          <button type="submit" style="font-weight: 500; background: none;">Log out</button>
+          <button type="submit" style="font-weight: 500; background: none;">Log In</button>
         </form>
       </a>
-      <a href="/admin" style="--i:4">GoAdmin</a>
+      <a href="/admin" id="Admin-btn" style="--i:4">GoAdmin</a>
 
     </nav>
   </header>
@@ -313,6 +313,8 @@
 
 
   <!-- //end of footer -->
+
+  <script src="/home.js"></script>
 </body>
 
 </html>

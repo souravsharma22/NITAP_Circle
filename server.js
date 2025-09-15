@@ -69,17 +69,17 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 // Setup transporter with Gmail SMTP
-// const transporter = nodemailer.createTransport({
-// 	host: "smtp.gmail.com",
-// 	port: 465,
-// 	secure: true,
-// 	auth: {
-// 		user: process.env.GMAIL_USER,
-// 		pass: process.env.GMAIL_PASS,
-// 	},
-// 	connectionTimeout: 10000
-// });
-//----------------------/Gmail smtp
+const transporter = nodemailer.createTransport({
+	host: "smtp.gmail.com",
+	port: 465,
+	secure: true,
+	auth: {
+		user: process.env.GMAIL_USER,
+		pass: process.env.GMAIL_PASS,
+	},
+	connectionTimeout: 10000
+});
+// ----------------------/Gmail smtp
 // const transporter = nodemailer.createTransport({
 //   host: "smtp.gmail.com",
 //   port: 587,
@@ -96,23 +96,23 @@ app.use(passport.session());
 
 ///---------using SendGrid for email verification and sending otp----------//////////
 
-const transporter = nodemailer.createTransport({
-	host: "smtp.sendgrid.net",
-	port: 587,
-	secure: false,
-	auth:{
-		user: 'apikey',
-		pass: process.env.SENDGRID_API_KEY
-	},
-	logger: true,
-   debug: true,
-})
+// const transporter = nodemailer.createTransport({
+// 	host: "smtp.sendgrid.net",
+// 	port: 587,
+// 	secure: false,
+// 	auth:{
+// 		user: 'apikey',
+// 		pass: process.env.SENDGRID_API_KEY
+// 	},
+// 	logger: true,
+//    debug: true,
+// })
 app.post("/send-email", async (req, res) => {
 	try {
 		const { to, subject, text } = req.body;
-		// if (!validateNitapEmail(to)) {
-		// 	return res.status(400).json({ error: "Invalid email. Use your nitap.ac.in email." });
-		// }
+		if (!validateNitapEmail(to)) {
+			return res.status(400).json({ error: "Invalid email. Use your nitap.ac.in email." });
+		}
 
 		await transporter.sendMail({
 			from: `"NITAP CIRCLE" <${process.env.GMAIL_USER}>`,
@@ -148,6 +148,16 @@ app.get("/", (req, res) => {
 function validateNitapEmail(email) {
 	return /^[a-zA-Z0-9._%+-]+@nitap\.ac\.in$/.test(email);
 }
+
+/////---- api endpoint for getting current users--------
+app.get("/api/currentUser",(req, res)=>{
+	if( req.isAuthenticated()){
+		res.json(req.user);
+	}
+	else{
+		res.json(null);
+	}
+})
 
 
 //==========>>>------routes for rendering pages-----<<<============================
@@ -843,5 +853,5 @@ else{
 
 
 app.listen(port, () => {
-	console.log("lidtning on port number ", port);
+	console.log("Running on port number ", port);
 })

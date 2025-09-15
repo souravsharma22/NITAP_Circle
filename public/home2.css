@@ -92,6 +92,10 @@
   display: none;
 }
 
+/* //admin button :default not visivle */
+#Admin-btn{
+  display: none;
+}
 
 
 /* // resposive navbar */
@@ -129,7 +133,7 @@
   }
 
   #check:checked~.navbar {
-    height: 18rem;
+    height: 15rem;
   }
 
 
@@ -255,6 +259,9 @@
 }
 
 @media (max-width: 700px){
+  .home{
+    min-height: fit-content;
+  }
   .contents{
     grid-template-columns: 1fr;
     gap: 10px;

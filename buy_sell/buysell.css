@@ -337,7 +337,12 @@
     padding: 32px;
     background:rgb(185, 206, 185) ;
 }
-
+#myProduct{
+    display: flex;
+    margin: 0;
+    padding: 32px;
+    background-color: #0f172a;
+}
 @media (max-width: 768px){
     #productContainer{
         margin: 0;
@@ -345,13 +350,8 @@
     }
 }
 
-/* //My products container */
-#myProduct{
-    display: flex;
-    margin: 0;
-    padding: 32px;
-    background-color: #0f172a;
-}
+
+
 
 .hide{
     display: none;

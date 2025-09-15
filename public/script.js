@@ -22,10 +22,10 @@ function showForm(formId) {
         body: JSON.stringify({ to, subject, text: message })
       });
 
-      if(!res.ok){
-        alert("Enter valid email, use the collge email id");
-        window.location.reload();
-      }
+      // if(res.error){
+      //   alert("Failed to send email");
+      //   window.location.reload();
+      // }
       const data = await res.json();
       document.getElementById("status").textContent = data.message;
     });
@@ -34,7 +34,7 @@ function showForm(formId) {
       e.preventDefault();
       const user_otp = document.getElementById("otp-in").value;
       if(user_otp == otp){
-        alert("OTP varified");
+        alert("OTP verified");
         document.getElementById("registration-verify").style.display = "block"
         document.getElementById("status").style.display = "none"
       }else{
@@ -55,8 +55,7 @@ function showForm(formId) {
       document.getElementById("forget-status").style.display = 'inline-flex';
       const to = document.getElementById("forget-email").value;
       const subject = `Password Changing`
-      const message = `OTP Verification for changing password for the account ${to},
-                		You OTP for verification is ${pass_otp}`
+      const message = `OTP Verification for changing password for the account ${to},You OTP for verification is ${pass_otp}`
 
       const res = await fetch("/send-email", {
         method: "POST",
@@ -77,7 +76,7 @@ function showForm(formId) {
       e.preventDefault();
       const user_otp = document.getElementById("forget-otp-in").value;
       if(user_otp == pass_otp){
-        alert("OTP varified");
+        alert("OTP verified");
         document.getElementById("password-reset").style.display = "block"
         document.getElementById("forget-status").style.display = "none"
       }else{

@@ -93,7 +93,7 @@ async function loadMyProducts() {
     }
 
     const cardHTML = `
-      <div class="card m-2 shadow-sm" style="max-width: 18rem; flex: 1;">
+      <div class="card m-2 shadow-sm" style="max-width: 18rem;">
        ${imgElement}
         <div class="card-body">
           <h5 class="card-title text-truncate">${c.product_name}</h5>
