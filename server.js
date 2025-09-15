@@ -107,7 +107,26 @@ const transporter = nodemailer.createTransport({
 	logger: true,
    debug: true,
 })
+app.post("/send-email", async (req, res) => {
+	try {
+		const { to, subject, text } = req.body;
+		// if (!validateNitapEmail(to)) {
+		// 	return res.status(400).json({ error: "Invalid email. Use your nitap.ac.in email." });
+		// }
 
+		await transporter.sendMail({
+			from: `"NITAP CIRCLE" <${process.env.GMAIL_USER}>`,
+			to,
+			subject,
+			text,
+		});
+
+		res.json({ message: "✅ Email sent successfully!" });
+	} catch (err) {
+		console.error(err);
+		res.status(400).json({ error: "❌ Failed to send email. check email" });
+	}
+});
 
 // auto deleting the old lost and found requests posted
 async function cleanOldRequest() {
@@ -215,26 +234,7 @@ app.get("/admin/nitapstore/allProducts", (req, res) => {
 })
 
 
-app.post("/send-email", async (req, res) => {
-	try {
-		const { to, subject, text } = req.body;
-		if (!validateNitapEmail(to)) {
-			return res.status(400).json({ error: "Invalid email. Use your nitap.ac.in email." });
-		}
 
-		await transporter.sendMail({
-			from: `"NITAP CIRCLE" <${process.env.GMAIL_USER}>`,
-			to,
-			subject,
-			text,
-		});
-
-		res.json({ message: "✅ Email sent successfully!" });
-	} catch (err) {
-		console.error(err);
-		res.status(400).json({ error: "❌ Failed to send email. check email" });
-	}
-});
 
 
 
